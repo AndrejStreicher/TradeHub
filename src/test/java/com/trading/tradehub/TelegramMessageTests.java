@@ -1,8 +1,7 @@
 package com.trading.tradehub;
 
-import com.example.demo.model.ClusterInsiderBuysModel;
-import com.example.demo.service.TelegramMessageService;
 import com.trading.tradehub.model.ClusterInsiderBuysModel;
+import com.trading.tradehub.service.TelegramMessageService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
