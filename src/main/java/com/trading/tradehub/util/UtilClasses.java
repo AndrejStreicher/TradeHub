@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class utilClasses
+public class UtilClasses
 {
     // Converts an HTML file into a string
     public static String HTMLFileToString(String filePath)
