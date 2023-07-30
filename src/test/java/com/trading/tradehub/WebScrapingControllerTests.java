@@ -2,6 +2,7 @@ package com.trading.tradehub;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.net.URI;
@@ -9,14 +10,16 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-class WebScrapingTests
+class WebScrapingControllerTests
 {
     private final HttpClient httpClient = HttpClient.newHttpClient();
+    @Value("${baseUrl}")
+    private String baseUrl;
 
     @Test
     void latestClusterBuyWebScraperTest()
     {
-        String URIString = "http://localhost:8080/webscrape/openinsider/clusterbuys";
+        String URIString = baseUrl + "/webscrape/openinsider/clusterbuys";
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(URIString))
                 .GET()
@@ -37,7 +40,7 @@ class WebScrapingTests
     @Test
     void tickerLatestInsiderBuysTest()
     {
-        String URIString = "http://localhost:8080/webscrape/openinsider/AAPL";
+        String URIString = baseUrl + "/webscrape/openinsider/AAPL";
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(URIString))
                 .GET()

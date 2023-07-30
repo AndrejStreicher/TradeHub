@@ -13,13 +13,30 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @SpringBootTest
-class TelegramMessageTests
+class TelegramMessageServiceTests
 {
     private final TelegramMessageService telegramMessageService;
+    private final ClusterInsiderBuysModel clusterInsiderBuysModelTest;
 
     @Autowired
-    public TelegramMessageTests(TelegramMessageService telegramMessageService)
+    public TelegramMessageServiceTests(TelegramMessageService telegramMessageService)
     {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        clusterInsiderBuysModelTest = new ClusterInsiderBuysModel(
+                "2M",
+                LocalDateTime.parse("2023-07-26 12:04:47", dateTimeFormatter),
+                LocalDate.parse("2023-07-25", dateFormatter),
+                "TEST",
+                "Test Company",
+                "Testing Industry",
+                4,
+                "P - Purchase",
+                4.50,
+                100,
+                150,
+                16,
+                4560320);
         this.telegramMessageService = telegramMessageService;
     }
 
@@ -44,6 +61,6 @@ class TelegramMessageTests
                 4560320);
         HttpResponse<String> response = telegramMessageService.sendMessage(TelegramMessageService.TargetChat.TEST, clusterInsiderBuysModelTest);
         Assertions.assertNotNull(response);
-        Assertions.assertTrue(response.toString().contains("200"));
+        Assertions.assertEquals(200, response.statusCode());
     }
 }
