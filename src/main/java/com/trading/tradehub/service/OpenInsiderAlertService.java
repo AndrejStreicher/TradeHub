@@ -1,7 +1,6 @@
 package com.trading.tradehub.service;
 
 import com.trading.tradehub.model.ClusterInsiderBuysModel;
-import com.trading.tradehub.model.ClusterInsiderBuysModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,7 @@ public class OpenInsiderAlertService
 {
 
     // The refresh rate in milliseconds for checking new cluster buy events.
-    private static final int REFRESH_RATE_IN_MILLISECONDS = 20000;
+    private static final int REFRESH_RATE_IN_MILLISECONDS = 900000;
     private final TelegramMessageService telegramMessageService;
     private final OpenInsiderWebScraperService openInsiderWebScraperService;
     // Holds the latest cluster insider buy event data.
