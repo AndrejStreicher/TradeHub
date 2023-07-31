@@ -14,18 +14,19 @@ public class OpenInsiderAlertService
 
     // The refresh rate in milliseconds for checking new cluster buy events.
     private static final int REFRESH_RATE_IN_MILLISECONDS = 900000;
-    private final TelegramMessageService telegramMessageService;
+    private final TelegramBotService telegramBotService;
     private final OpenInsiderWebScraperService openInsiderWebScraperService;
     // Holds the latest cluster insider buy event data.
     private ClusterInsiderBuysModel latestClusterBuy = null;
+    private boolean initialized = false;
 
     @Autowired
     public OpenInsiderAlertService(
-            TelegramMessageService telegramMessageService,
+            TelegramBotService telegramBotService,
             OpenInsiderWebScraperService openInsiderWebScraperService
     )
     {
-        this.telegramMessageService = telegramMessageService;
+        this.telegramBotService = telegramBotService;
         this.openInsiderWebScraperService = openInsiderWebScraperService;
     }
 
@@ -50,11 +51,12 @@ public class OpenInsiderAlertService
             {
                 // Check if the latest cluster buy is different from the previously stored one.
                 // If a new cluster buy is detected, update the latestClusterBuy and send an alert message.
-                if (latestClusterBuy == null || !latestClusterBuy.equals(newClusterBuyModel))
+                if (initialized && (latestClusterBuy == null || !latestClusterBuy.equals(newClusterBuyModel)))
                 {
                     latestClusterBuy = newClusterBuyModel;
-                    telegramMessageService.sendMessage(TelegramMessageService.TargetChat.GROUP, latestClusterBuy);
+                    telegramBotService.sendMessage(TelegramBotService.TargetChat.GROUP, latestClusterBuy);
                 }
+                initialized = true;
             }
         } catch (Exception e)
         {
