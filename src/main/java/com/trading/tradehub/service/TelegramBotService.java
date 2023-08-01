@@ -1,9 +1,10 @@
 package com.trading.tradehub.service;
 
 import com.trading.tradehub.model.ClusterInsiderBuysModel;
-import com.trading.tradehub.util.utilClasses;
+import com.trading.tradehub.util.UtilClasses;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.URI;
@@ -13,13 +14,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
-import static com.trading.tradehub.util.utilClasses.HTMLFileToString;
-
 /**
  * Service class to send messages to Telegram chat groups or users using Telegram Bot API.
  */
 @Service
-public class TelegramMessageService
+public class TelegramBotService
 {
     /**
      * Enum representing the target chat group or user for sending the message.
@@ -71,16 +70,15 @@ public class TelegramMessageService
      */
     private HttpRequest buildMessageRequest(TargetChat target, String messageToSend)
     {
-        String baseBotUrl = telegramBotAPIURL + telegramBotAPIKey;
         String targetChat = switch (target)
                 {
                     case PERSONAL -> personalChatID;
                     case GROUP -> groupChatID;
                     case TEST -> testGroupChatID;
                 };
-        String uriString = baseBotUrl + "/sendMessage" + "?chat_id=" + targetChat + "&text=" + messageToSend + "&parse_mode=HTML";
+        String urlString = getBaseBotUrl() + "/sendMessage" + "?chat_id=" + targetChat + "&text=" + messageToSend + "&parse_mode=HTML";
         return HttpRequest.newBuilder()
-                .uri(URI.create(uriString))
+                .uri(URI.create(urlString))
                 .GET()
                 .build();
     }
@@ -93,7 +91,7 @@ public class TelegramMessageService
      */
     private String buildClusterBuyMessage(ClusterInsiderBuysModel clusterInsiderBuysModel)
     {
-        String messageToSend = utilClasses.HTMLFileToString("src/main/resources/static/clusterBuyTelegramMessage.html");
+        String messageToSend = UtilClasses.HTMLFileToString("src/main/resources/static/clusterBuyTelegramMessage.html");
         assert messageToSend != null;
         messageToSend = String.format(messageToSend,
                 clusterInsiderBuysModel.ticker(),
@@ -110,5 +108,17 @@ public class TelegramMessageService
                 clusterInsiderBuysModel.tradeDate());
         messageToSend = URLEncoder.encode(messageToSend, StandardCharsets.UTF_8);
         return messageToSend;
+    }
+
+    private String getBaseBotUrl()
+    {
+        return telegramBotAPIURL + telegramBotAPIKey;
+    }
+
+    public String getBotUpdates()
+    {
+        String urlString = getBaseBotUrl() + "/getUpdates";
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(urlString, String.class);
     }
 }

@@ -1,7 +1,7 @@
 package com.trading.tradehub;
 
 import com.trading.tradehub.model.ClusterInsiderBuysModel;
-import com.trading.tradehub.service.TelegramMessageService;
+import com.trading.tradehub.service.TelegramBotService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +13,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @SpringBootTest
-class TelegramMessageServiceTests
+class TelegramBotServiceTests
 {
-    private final TelegramMessageService telegramMessageService;
+    private final TelegramBotService telegramBotService;
     private final ClusterInsiderBuysModel clusterInsiderBuysModelTest;
 
     @Autowired
-    public TelegramMessageServiceTests(TelegramMessageService telegramMessageService)
+    public TelegramBotServiceTests(TelegramBotService telegramBotService)
     {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -37,7 +37,7 @@ class TelegramMessageServiceTests
                 150,
                 16,
                 4560320);
-        this.telegramMessageService = telegramMessageService;
+        this.telegramBotService = telegramBotService;
     }
 
     @Test
@@ -59,8 +59,14 @@ class TelegramMessageServiceTests
                 150,
                 16,
                 4560320);
-        HttpResponse<String> response = telegramMessageService.sendMessage(TelegramMessageService.TargetChat.TEST, clusterInsiderBuysModelTest);
+        HttpResponse<String> response = telegramBotService.sendMessage(TelegramBotService.TargetChat.TEST, clusterInsiderBuysModelTest);
         Assertions.assertNotNull(response);
         Assertions.assertEquals(200, response.statusCode());
+    }
+
+    @Test
+    void getUpdatesTest()
+    {
+        System.out.println(telegramBotService.getBotUpdates() + "___________");
     }
 }
