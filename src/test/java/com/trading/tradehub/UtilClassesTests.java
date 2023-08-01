@@ -11,7 +11,7 @@ class UtilClassesTests
     @Test
     void HTMLFileToStringTest()
     {
-        String htmlString = UtilClasses.HTMLFileToString("src/test/resources/testHTML.html");
+        String htmlString = UtilClasses.HTMLFileToString("src/test/resources/HTMLFileToStringTESTHTML.html");
         Assertions.assertNotNull(htmlString);
         Assertions.assertSame(htmlString.getClass(), String.class);
         Assertions.assertFalse(htmlString.isEmpty());
