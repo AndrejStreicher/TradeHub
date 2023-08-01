@@ -19,7 +19,7 @@ public class OpenInsiderAlertService
     // Holds the latest cluster insider buy event data.
     private ClusterInsiderBuysModel latestClusterBuy = null;
     private boolean initialized = false;
-    private final int MIN_VALUE = 500000;
+    private static final int MIN_VALUE = 500000;
 
     @Autowired
     public OpenInsiderAlertService(
