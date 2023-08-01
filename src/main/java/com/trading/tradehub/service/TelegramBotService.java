@@ -1,7 +1,7 @@
 package com.trading.tradehub.service;
 
 import com.trading.tradehub.model.ClusterInsiderBuysModel;
-import com.trading.tradehub.util.UtilClasses;
+import com.trading.tradehub.util.UtilHTMLMethods;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -91,7 +91,7 @@ public class TelegramBotService
      */
     private String buildClusterBuyMessage(ClusterInsiderBuysModel clusterInsiderBuysModel)
     {
-        String messageToSend = UtilClasses.HTMLFileToString("src/main/resources/static/clusterBuyTelegramMessage.html");
+        String messageToSend = UtilHTMLMethods.HTMLFileToString("src/main/resources/static/clusterBuyTelegramMessage.html");
         assert messageToSend != null;
         messageToSend = String.format(messageToSend,
                 clusterInsiderBuysModel.ticker(),

@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class UtilClasses
+public class UtilHTMLMethods
 {
     // Converts an HTML file into a string
     public static String HTMLFileToString(String filePath)
@@ -37,4 +37,6 @@ public class UtilClasses
         }
         return null;
     }
+
+
 }

@@ -2,7 +2,7 @@ package com.trading.tradehub.service;
 
 import com.trading.tradehub.model.ClusterInsiderBuysModel;
 import com.trading.tradehub.model.TickerInsiderTradeModel;
-import com.trading.tradehub.util.UtilClasses;
+import com.trading.tradehub.util.UtilHTMLMethods;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -34,7 +34,7 @@ public class OpenInsiderWebScraperService
      */
     public List<ClusterInsiderBuysModel> scrapeLatestClusterBuys()
     {
-        Document clusterBuysDoc = UtilClasses.getHTMLFromLink(openInsiderBaseURL + "/latest-cluster-buys");
+        Document clusterBuysDoc = UtilHTMLMethods.getHTMLFromLink(openInsiderBaseURL + "/latest-cluster-buys");
         assert clusterBuysDoc != null;
         Elements tinyTableClasses = clusterBuysDoc.getElementsByClass("tinytable");
         for (Element tinyTable : tinyTableClasses)
@@ -58,7 +58,7 @@ public class OpenInsiderWebScraperService
      */
     public List<TickerInsiderTradeModel> scrapeLatestTickerClusterBuys(String ticker)
     {
-        Document clusterBuysDoc = UtilClasses.getHTMLFromLink(openInsiderBaseURL + "/" + ticker);
+        Document clusterBuysDoc = UtilHTMLMethods.getHTMLFromLink(openInsiderBaseURL + "/" + ticker);
         Elements tinyTableClasses = clusterBuysDoc.getElementsByClass("tinytable");
         for (Element tinyTable : tinyTableClasses)
         {

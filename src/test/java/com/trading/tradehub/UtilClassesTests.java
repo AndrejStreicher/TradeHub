@@ -1,6 +1,6 @@
 package com.trading.tradehub;
 
-import com.trading.tradehub.util.UtilClasses;
+import com.trading.tradehub.util.UtilHTMLMethods;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ class UtilClassesTests
     @Test
     void HTMLFileToStringTest()
     {
-        String htmlString = UtilClasses.HTMLFileToString("src/test/resources/HTMLFileToStringTESTHTML.html");
+        String htmlString = UtilHTMLMethods.HTMLFileToString("src/test/resources/HTMLFileToStringTESTHTML.html");
         Assertions.assertNotNull(htmlString);
         Assertions.assertSame(htmlString.getClass(), String.class);
         Assertions.assertFalse(htmlString.isEmpty());
@@ -21,7 +21,7 @@ class UtilClassesTests
     @Test
     void getHTMLFileFromLinkTest()
     {
-        Document testDocument = UtilClasses.getHTMLFromLink("https://www.scrapethissite.com/pages/");
+        Document testDocument = UtilHTMLMethods.getHTMLFromLink("https://www.scrapethissite.com/pages/");
         Assertions.assertNotNull(testDocument);
     }
 }
