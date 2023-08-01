@@ -2,13 +2,12 @@ package com.trading.tradehub.service;
 
 import com.trading.tradehub.model.ClusterInsiderBuysModel;
 import com.trading.tradehub.model.TickerInsiderTradeModel;
-import org.jsoup.Jsoup;
+import com.trading.tradehub.util.UtilClasses;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,20 +34,15 @@ public class OpenInsiderWebScraperService
      */
     public List<ClusterInsiderBuysModel> scrapeLatestClusterBuys()
     {
-        try
+        Document clusterBuysDoc = UtilClasses.getHTMLFromLink(openInsiderBaseURL + "/latest-cluster-buys");
+        assert clusterBuysDoc != null;
+        Elements tinyTableClasses = clusterBuysDoc.getElementsByClass("tinytable");
+        for (Element tinyTable : tinyTableClasses)
         {
-            Document clusterBuysDoc = Jsoup.connect(openInsiderBaseURL + "/latest-cluster-buys").get();
-            Elements tinyTableClasses = clusterBuysDoc.getElementsByClass("tinytable");
-            for (Element tinyTable : tinyTableClasses)
+            if (tinyTable.child(0).child(0).childrenSize() == 17)
             {
-                if (tinyTable.child(0).child(0).childrenSize() == 17)
-                {
-                    return parseClusterBuys(tinyTable, dateTimeFormatter, dateFormatter);
-                }
+                return parseClusterBuys(tinyTable, dateTimeFormatter, dateFormatter);
             }
-        } catch (IOException ioException)
-        {
-            ioException.printStackTrace();
         }
         // Return an empty list if there's an exception or no data to parse
         return Collections.emptyList();
@@ -64,20 +58,14 @@ public class OpenInsiderWebScraperService
      */
     public List<TickerInsiderTradeModel> scrapeLatestTickerClusterBuys(String ticker)
     {
-        try
+        Document clusterBuysDoc = UtilClasses.getHTMLFromLink(openInsiderBaseURL + "/" + ticker);
+        Elements tinyTableClasses = clusterBuysDoc.getElementsByClass("tinytable");
+        for (Element tinyTable : tinyTableClasses)
         {
-            Document clusterBuysDoc = Jsoup.connect(openInsiderBaseURL + "/" + ticker).get();
-            Elements tinyTableClasses = clusterBuysDoc.getElementsByClass("tinytable");
-            for (Element tinyTable : tinyTableClasses)
+            if (tinyTable.child(0).child(0).childrenSize() == 16)
             {
-                if (tinyTable.child(0).child(0).childrenSize() == 16)
-                {
-                    return parseTickerInsiderBuys(tinyTable, dateTimeFormatter, dateFormatter);
-                }
+                return parseTickerInsiderBuys(tinyTable, dateTimeFormatter, dateFormatter);
             }
-        } catch (IOException ioException)
-        {
-            ioException.printStackTrace();
         }
         // Return an empty list if there's an exception or no data to parse
         return Collections.emptyList();

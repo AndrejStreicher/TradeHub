@@ -1,6 +1,7 @@
 package com.trading.tradehub;
 
 import com.trading.tradehub.util.UtilClasses;
+import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,5 +16,12 @@ class UtilClassesTests
         Assertions.assertNotNull(htmlString);
         Assertions.assertSame(htmlString.getClass(), String.class);
         Assertions.assertFalse(htmlString.isEmpty());
+    }
+
+    @Test
+    void getHTMLFileFromLinkTest()
+    {
+        Document testDocument = UtilClasses.getHTMLFromLink("https://www.scrapethissite.com/pages/");
+        Assertions.assertNotNull(testDocument);
     }
 }
