@@ -3,6 +3,7 @@ package com.trading.tradehub;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.net.URI;
@@ -10,6 +11,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+@SpringBootTest
 class WebScrapingControllerTests
 {
     private final HttpClient httpClient = HttpClient.newHttpClient();
