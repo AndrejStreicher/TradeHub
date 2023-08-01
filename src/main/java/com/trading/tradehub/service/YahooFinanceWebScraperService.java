@@ -31,7 +31,6 @@ public class YahooFinanceWebScraperService
             return Jsoup.connect(BASE_URL + "quote/" + ticker).get();
         } catch (IOException e)
         {
-            // Print the stack trace for debugging purposes, handle the exception in a more meaningful way in production.
             e.printStackTrace();
         }
         return null;
@@ -49,14 +48,11 @@ public class YahooFinanceWebScraperService
         double price = 0.00;
         Document quoteDocument = getQuote(ticker);
 
-        // Use a more stable CSS selector to get the current price element
         Elements currentPriceElements = quoteDocument.select("fin-streamer[data-symbol=" + ticker + "]");
 
-        // Ensure that you are parsing the correct element (if multiple elements are found)
         Element priceElement = currentPriceElements.first();
         String priceString = priceElement.attr("value");
 
-        // Handle potential parsing errors (NumberFormatException)
         try
         {
             price = Double.parseDouble(priceString);

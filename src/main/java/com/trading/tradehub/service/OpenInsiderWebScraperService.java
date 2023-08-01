@@ -48,7 +48,6 @@ public class OpenInsiderWebScraperService
             }
         } catch (IOException ioException)
         {
-            // Handle exception gracefully (log or return an empty list)
             ioException.printStackTrace();
         }
         // Return an empty list if there's an exception or no data to parse
@@ -78,7 +77,6 @@ public class OpenInsiderWebScraperService
             }
         } catch (IOException ioException)
         {
-            // Handle exception gracefully (log or return an empty list)
             ioException.printStackTrace();
         }
         // Return an empty list if there's an exception or no data to parse
