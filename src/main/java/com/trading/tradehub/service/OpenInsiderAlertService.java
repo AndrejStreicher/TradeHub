@@ -19,6 +19,7 @@ public class OpenInsiderAlertService
     // Holds the latest cluster insider buy event data.
     private ClusterInsiderBuysModel latestClusterBuy = null;
     private boolean initialized = false;
+    private final int MIN_VALUE = 500000;
 
     @Autowired
     public OpenInsiderAlertService(
@@ -51,7 +52,7 @@ public class OpenInsiderAlertService
             {
                 // Check if the latest cluster buy is different from the previously stored one.
                 // If a new cluster buy is detected, update the latestClusterBuy and send an alert message.
-                if (initialized && (latestClusterBuy == null || !latestClusterBuy.equals(newClusterBuyModel)))
+                if (initialized && !latestClusterBuy.equals(newClusterBuyModel) && latestClusterBuy.value() > MIN_VALUE)
                 {
                     latestClusterBuy = newClusterBuyModel;
                     telegramBotService.sendMessage(TelegramBotService.TargetChat.GROUP, latestClusterBuy);
