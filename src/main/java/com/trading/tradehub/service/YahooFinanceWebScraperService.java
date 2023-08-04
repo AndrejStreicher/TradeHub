@@ -13,6 +13,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service class to perform web scraping for stock quotes from Yahoo Finance.
@@ -30,25 +31,19 @@ public class YahooFinanceWebScraperService
      * @return The current stock price.
      * @throws NumberFormatException If there's an error while fetching or parsing the HTML.
      */
-    public double getCurrentPrice(String ticker)
+    public Optional<Double> getCurrentPrice(String ticker)
     {
-        double price = 0.00;
         Document quoteDocument = UtilHTMLMethods.getHTMLFromLink(BASE_URL + "quote/" + ticker);
-
+        if (quoteDocument.head().baseUri().contains("lookup"))
+        {
+            return Optional.empty();
+        }
         Elements currentPriceElements = quoteDocument.select("fin-streamer[data-symbol=" + ticker + "]");
 
         Element priceElement = currentPriceElements.first();
         String priceString = priceElement.attr("value");
 
-        try
-        {
-            price = Double.parseDouble(priceString);
-        } catch (NumberFormatException e)
-        {
-            e.printStackTrace();
-        }
-
-        return price;
+        return Optional.of(Double.parseDouble(priceString));
     }
 
     public List<HistoricalDataModel> getHistoricalData(String ticker, LocalDate period1, LocalDate period2, String interval)
