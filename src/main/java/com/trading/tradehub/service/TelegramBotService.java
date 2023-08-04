@@ -2,6 +2,8 @@ package com.trading.tradehub.service;
 
 import com.trading.tradehub.model.ClusterInsiderBuysModel;
 import com.trading.tradehub.util.UtilHTMLMethods;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -32,6 +34,7 @@ public class TelegramBotService
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final String telegramBotAPIURL = "https://api.telegram.org/bot";
+    private static final Logger logger = LoggerFactory.getLogger(TelegramBotService.class);
     @Value("${telegram.chatID.personal}")
     private String personalChatID;
     @Value("${telegram.chatID.test}")
@@ -54,9 +57,13 @@ public class TelegramBotService
         try
         {
             return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException | InterruptedException e)
+        } catch (IOException e)
         {
-            e.printStackTrace();
+            logger.error("Error occurred while processing the data.", e);
+        } catch (InterruptedException e)
+        {
+            logger.error("Thread was interrupted during data processing.", e);
+            Thread.currentThread().interrupt();
         }
         return null;
     }

@@ -2,6 +2,8 @@ package com.trading.tradehub.util;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -11,6 +13,8 @@ import java.nio.file.Paths;
 
 public class UtilHTMLMethods
 {
+    private static final Logger logger = LoggerFactory.getLogger(UtilHTMLMethods.class);
+
     // Converts an HTML file into a string
     public static String HTMLFileToString(String filePath)
     {
@@ -21,7 +25,7 @@ public class UtilHTMLMethods
             return new String(bytes, StandardCharsets.UTF_8);
         } catch (IOException e)
         {
-            e.printStackTrace();
+            logger.error("Error occurred while processing the data.", e);
         }
         return null;
     }
@@ -33,7 +37,7 @@ public class UtilHTMLMethods
             return Jsoup.connect(link).get();
         } catch (IOException e)
         {
-            e.printStackTrace();
+            logger.error("Error occurred while processing the data.", e);
         }
         return null;
     }
