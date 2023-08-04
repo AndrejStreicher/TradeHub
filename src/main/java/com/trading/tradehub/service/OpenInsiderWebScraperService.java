@@ -21,9 +21,9 @@ import java.util.List;
 @Service
 public class OpenInsiderWebScraperService
 {
-    private final String openInsiderBaseURL = "http://openinsider.com";
-    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private String openInsiderBaseURL = "http://openinsider.com";
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     /**
      * Scrapes the latest cluster insider buys data from the OpenInsider website.
@@ -35,7 +35,6 @@ public class OpenInsiderWebScraperService
     public List<ClusterInsiderBuysModel> scrapeLatestClusterBuys()
     {
         Document clusterBuysDoc = UtilHTMLMethods.getHTMLFromLink(openInsiderBaseURL + "/latest-cluster-buys");
-        assert clusterBuysDoc != null;
         Elements tinyTableClasses = clusterBuysDoc.getElementsByClass("tinytable");
         for (Element tinyTable : tinyTableClasses)
         {
@@ -59,6 +58,12 @@ public class OpenInsiderWebScraperService
     public List<TickerInsiderTradeModel> scrapeLatestTickerClusterBuys(String ticker)
     {
         Document clusterBuysDoc = UtilHTMLMethods.getHTMLFromLink(openInsiderBaseURL + "/" + ticker);
+        Element subjectDetails = clusterBuysDoc.getElementById("subjectDetails");
+        if (subjectDetails.child(0).text() == null)
+        {
+            // Return an empty list if the ticker is invalid
+            return Collections.emptyList();
+        }
         Elements tinyTableClasses = clusterBuysDoc.getElementsByClass("tinytable");
         for (Element tinyTable : tinyTableClasses)
         {
@@ -67,8 +72,8 @@ public class OpenInsiderWebScraperService
                 return parseTickerInsiderBuys(tinyTable, dateTimeFormatter, dateFormatter);
             }
         }
-        // Return an empty list if there's an exception or no data to parse
-        return Collections.emptyList();
+        // Return an empty ArrayList if there is no data to parse
+        return new ArrayList<>();
     }
 
     /**
