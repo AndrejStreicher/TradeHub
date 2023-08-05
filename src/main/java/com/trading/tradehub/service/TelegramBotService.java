@@ -22,6 +22,18 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class TelegramBotService
 {
+    private static final Logger logger = LoggerFactory.getLogger(TelegramBotService.class);
+    private final HttpClient httpClient = HttpClient.newHttpClient();
+    private final String telegramBotAPIURL = "https://api.telegram.org/bot";
+    @Value("${telegram.chatID.personal}")
+    private String personalChatID;
+    @Value("${telegram.chatID.test}")
+    private String testGroupChatID;
+    @Value("${telegram.chatID.group}")
+    private String groupChatID;
+    @Value("${telegram.botAPI.key}")
+    private String telegramBotAPIKey;
+
     /**
      * Enum representing the target chat group or user for sending the message.
      */
@@ -31,18 +43,6 @@ public class TelegramBotService
         GROUP,
         TEST
     }
-
-    private final HttpClient httpClient = HttpClient.newHttpClient();
-    private final String telegramBotAPIURL = "https://api.telegram.org/bot";
-    private static final Logger logger = LoggerFactory.getLogger(TelegramBotService.class);
-    @Value("${telegram.chatID.personal}")
-    private String personalChatID;
-    @Value("${telegram.chatID.test}")
-    private String testGroupChatID;
-    @Value("${telegram.chatID.group}")
-    private String groupChatID;
-    @Value("${telegram.botAPI.key}")
-    private String telegramBotAPIKey;
 
     /**
      * Send a message to the specified Telegram chat group or user.
@@ -78,11 +78,11 @@ public class TelegramBotService
     private HttpRequest buildMessageRequest(TargetChat target, String messageToSend)
     {
         String targetChat = switch (target)
-                {
-                    case PERSONAL -> personalChatID;
-                    case GROUP -> groupChatID;
-                    case TEST -> testGroupChatID;
-                };
+        {
+            case PERSONAL -> personalChatID;
+            case GROUP -> groupChatID;
+            case TEST -> testGroupChatID;
+        };
         String urlString = getBaseBotUrl() + "/sendMessage" + "?chat_id=" + targetChat + "&text=" + messageToSend + "&parse_mode=HTML";
         return HttpRequest.newBuilder()
                 .uri(URI.create(urlString))

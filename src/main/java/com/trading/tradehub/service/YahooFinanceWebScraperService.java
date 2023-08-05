@@ -34,7 +34,7 @@ public class YahooFinanceWebScraperService
     public Optional<Double> getCurrentPrice(String ticker)
     {
         Document quoteDocument = UtilHTMLMethods.getHTMLFromLink(BASE_URL + "quote/" + ticker);
-        if (quoteDocument.head().baseUri().contains("lookup"))
+        if (quoteDocument.location().contains("lookup"))
         {
             return Optional.empty();
         }
