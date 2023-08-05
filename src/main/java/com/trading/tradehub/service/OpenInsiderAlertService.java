@@ -13,7 +13,7 @@ public class OpenInsiderAlertService
 {
 
     // The refresh rate in milliseconds for checking new cluster buy events.
-    private static final int REFRESH_RATE_IN_MILLISECONDS = 900000;
+    private static final int REFRESH_RATE_IN_MILLISECONDS = 15000;
     private final TelegramBotService telegramBotService;
     private final OpenInsiderWebScraperService openInsiderWebScraperService;
     // Holds the latest cluster insider buy event data.
@@ -49,6 +49,10 @@ public class OpenInsiderAlertService
             // Synchronize to avoid race conditions while updating the shared latestClusterBuy field.
             synchronized (this)
             {
+                if (!initialized)
+                {
+                    latestClusterBuy = newClusterBuyModel;
+                }
                 // Check if the latest cluster buy is different from the previously stored one.
                 // If a new cluster buy is detected, update the latestClusterBuy and send an alert message.
                 if (initialized && !latestClusterBuy.equals(newClusterBuyModel))
