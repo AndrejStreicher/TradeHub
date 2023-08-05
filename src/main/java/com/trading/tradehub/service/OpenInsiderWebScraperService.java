@@ -21,9 +21,9 @@ import java.util.List;
 @Service
 public class OpenInsiderWebScraperService
 {
-    private String openInsiderBaseURL = "http://openinsider.com";
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final String OPEN_INSIDER_BASE_URL = "http://openinsider.com";
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     /**
      * Scrapes the latest cluster insider buys data from the OpenInsider website.
@@ -34,7 +34,8 @@ public class OpenInsiderWebScraperService
      */
     public List<ClusterInsiderBuysModel> scrapeLatestClusterBuys()
     {
-        Document clusterBuysDoc = UtilHTMLMethods.getHTMLFromLink(openInsiderBaseURL + "/latest-cluster-buys");
+        Document clusterBuysDoc = UtilHTMLMethods.getHTMLFromLink(OPEN_INSIDER_BASE_URL + "/latest-cluster-buys");
+        assert clusterBuysDoc != null;
         Elements tinyTableClasses = clusterBuysDoc.getElementsByClass("tinytable");
         for (Element tinyTable : tinyTableClasses)
         {
@@ -57,7 +58,8 @@ public class OpenInsiderWebScraperService
      */
     public List<TickerInsiderTradeModel> scrapeLatestTickerClusterBuys(String ticker)
     {
-        Document clusterBuysDoc = UtilHTMLMethods.getHTMLFromLink(openInsiderBaseURL + "/" + ticker);
+        Document clusterBuysDoc = UtilHTMLMethods.getHTMLFromLink(OPEN_INSIDER_BASE_URL + "/" + ticker);
+        assert clusterBuysDoc != null;
         Element subjectDetails = clusterBuysDoc.getElementById("subjectDetails");
         if (subjectDetails.child(0).text() == null)
         {
@@ -96,7 +98,7 @@ public class OpenInsiderWebScraperService
             int quantity = Integer.parseInt(columns.get(9).text().replace(",", ""));
             int owned = Integer.parseInt(columns.get(10).text().replace(",", ""));
             int changeInOwned = 0;
-            if (!columns.get(11).text().replace("%", "").equals(""))
+            if (!columns.get(11).text().replace("%", "").isEmpty())
             {
                 changeInOwned = Integer.parseInt(columns.get(11).text().replace("%", ""));
             }
@@ -140,7 +142,7 @@ public class OpenInsiderWebScraperService
             int quantity = Integer.parseInt(columns.get(8).text().replace(",", ""));
             int owned = Integer.parseInt(columns.get(9).text().replace(",", ""));
             int changeInOwned = 0;
-            if (!columns.get(10).text().replace("%", "").equals(""))
+            if (!columns.get(10).text().replace("%", "").isEmpty())
             {
                 changeInOwned = Integer.parseInt(columns.get(10).text().replace("%", ""));
             }
