@@ -49,6 +49,10 @@ public class OpenInsiderAlertService
             // Synchronize to avoid race conditions while updating the shared latestClusterBuy field.
             synchronized (this)
             {
+                if (!initialized)
+                {
+                    latestClusterBuy = newClusterBuyModel;
+                }
                 // Check if the latest cluster buy is different from the previously stored one.
                 // If a new cluster buy is detected, update the latestClusterBuy and send an alert message.
                 if (initialized && !latestClusterBuy.equals(newClusterBuyModel))
