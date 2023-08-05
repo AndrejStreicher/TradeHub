@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.URI;
@@ -24,7 +23,6 @@ public class TelegramBotService
 {
     private static final Logger logger = LoggerFactory.getLogger(TelegramBotService.class);
     private final HttpClient httpClient = HttpClient.newHttpClient();
-    private final String telegramBotAPIURL = "https://api.telegram.org/bot";
     @Value("${telegram.chatID.personal}")
     private String personalChatID;
     @Value("${telegram.chatID.test}")
@@ -49,14 +47,13 @@ public class TelegramBotService
      *
      * @param targetChat              The target chat group or user to send the message to.
      * @param clusterInsiderBuysModel The ClusterInsiderBuysModel object containing information to include in the message.
-     * @return An HttpResponse containing the response from the Telegram Bot API.
      */
-    public HttpResponse<String> sendMessage(TargetChat targetChat, ClusterInsiderBuysModel clusterInsiderBuysModel)
+    public void sendMessage(TargetChat targetChat, ClusterInsiderBuysModel clusterInsiderBuysModel)
     {
         HttpRequest request = buildMessageRequest(targetChat, buildClusterBuyMessage(clusterInsiderBuysModel));
         try
         {
-            return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException e)
         {
             logger.error("Error occurred while processing the data.", e);
@@ -65,7 +62,6 @@ public class TelegramBotService
             logger.error("Thread was interrupted during data processing.", e);
             Thread.currentThread().interrupt();
         }
-        return null;
     }
 
     /**
@@ -119,13 +115,6 @@ public class TelegramBotService
 
     private String getBaseBotUrl()
     {
-        return telegramBotAPIURL + telegramBotAPIKey;
-    }
-
-    public String getBotUpdates()
-    {
-        String urlString = getBaseBotUrl() + "/getUpdates";
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(urlString, String.class);
+        return "https://api.telegram.org/bot" + telegramBotAPIKey;
     }
 }
