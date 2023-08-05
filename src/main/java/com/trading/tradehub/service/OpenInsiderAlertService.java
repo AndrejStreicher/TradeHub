@@ -1,6 +1,8 @@
 package com.trading.tradehub.service;
 
 import com.trading.tradehub.model.ClusterInsiderBuysModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class OpenInsiderAlertService
 {
+    private static final Logger logger = LoggerFactory.getLogger(OpenInsiderAlertService.class);
 
     // The refresh rate in milliseconds for checking new cluster buy events.
     private static final int REFRESH_RATE_IN_MILLISECONDS = 900000;
@@ -64,7 +67,7 @@ public class OpenInsiderAlertService
             }
         } catch (Exception e)
         {
-            e.printStackTrace();
+            logger.error("There was an exception in the alert service", e);
         }
     }
 }
