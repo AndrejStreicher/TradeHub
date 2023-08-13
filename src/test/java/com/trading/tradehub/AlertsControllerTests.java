@@ -28,7 +28,7 @@ class AlertsControllerTests
     }
 
     @Test
-    void updateClusterBuyAlertStatus_ClusterBuyAlertSetToEnabled_StatusIs200()
+    void updateClusterBuyAlertStatus_ClusterBuyAlertSetToEnabled_StatusCode200()
     {
         boolean enabled = true;
 
@@ -39,7 +39,7 @@ class AlertsControllerTests
     }
 
     @Test
-    void updateClusterBuyAlertStatus_ClusterBuyAlertSetToDisabled_StatusIs200()
+    void updateClusterBuyAlertStatus_ClusterBuyAlertSetToDisabled_StatusCode200()
     {
         boolean enabled = false;
 
@@ -50,7 +50,7 @@ class AlertsControllerTests
     }
 
     @Test
-    void getClusterBuyAlertStatus_DefaultEnabledStatus_StatusIs200()
+    void getClusterBuyAlertStatus_DefaultEnabledStatus_StatusCode200()
     {
         ResponseEntity<Boolean> actualResponseFalse = alertsController.getClusterBuyAlertStatus();
         assertEquals(HttpStatus.OK, actualResponseFalse.getStatusCode());
