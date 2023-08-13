@@ -2,7 +2,6 @@ package com.trading.tradehub.controller;
 
 import com.trading.tradehub.service.OpenInsiderAlertService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,11 @@ public class AlertsController
     public ResponseEntity<Void> updateClusterBuyAlertStatus(@RequestParam boolean enabled)
     {
         openInsiderAlertService.setClusterBuyAlertEnabled(enabled);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        if (openInsiderAlertService.getClusterBuyAlertEnabled() != enabled)
+        {
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/clusterbuyalert/status")

@@ -2,6 +2,7 @@ package com.trading.tradehub;
 
 import com.trading.tradehub.controller.AlertsController;
 import com.trading.tradehub.service.OpenInsiderAlertService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -11,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @WebMvcTest(AlertsController.class)
 class AlertsControllerTests
@@ -28,32 +29,35 @@ class AlertsControllerTests
     }
 
     @Test
-    void updateClusterBuyAlertStatus_ClusterBuyAlertSetToEnabled_StatusCode200()
+    void getClusterBuyAlertStatus_DefaultEnabledStatusIsDisabled_StatusCode200()
     {
-        boolean enabled = true;
+        ResponseEntity<Boolean> response = alertsController.getClusterBuyAlertStatus();
 
-        ResponseEntity<Void> actualResponse = alertsController.updateClusterBuyAlertStatus(enabled);
-
-        verify(openInsiderAlertService).setClusterBuyAlertEnabled(enabled);
-        assertEquals(HttpStatus.OK, actualResponse.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertFalse(response.getBody());
     }
 
     @Test
-    void updateClusterBuyAlertStatus_ClusterBuyAlertSetToDisabled_StatusCode200()
+    void updateClusterBuyAlertStatus_ClusterBuyAlertStatusIsNotSetCorrectly_StatusCode500()
     {
         boolean enabled = false;
+        when(openInsiderAlertService.getClusterBuyAlertEnabled()).thenReturn(!enabled);
 
-        ResponseEntity<Void> actualResponse = alertsController.updateClusterBuyAlertStatus(enabled);
+        ResponseEntity<Void> response = alertsController.updateClusterBuyAlertStatus(enabled);
 
-        verify(openInsiderAlertService).setClusterBuyAlertEnabled(enabled);
-        assertEquals(HttpStatus.OK, actualResponse.getStatusCode());
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
     @Test
-    void getClusterBuyAlertStatus_DefaultEnabledStatus_StatusCode200()
+    void updateClusterBuyAlertStatus_ClusterBuyAlertStatusIsSetCorrectly_StatusCode200()
     {
-        ResponseEntity<Boolean> actualResponseFalse = alertsController.getClusterBuyAlertStatus();
-        assertEquals(HttpStatus.OK, actualResponseFalse.getStatusCode());
-        assertFalse(actualResponseFalse.getBody());
+        boolean enabled = false;
+        when(openInsiderAlertService.getClusterBuyAlertEnabled()).thenReturn(enabled);
+
+        ResponseEntity<Void> response = alertsController.updateClusterBuyAlertStatus(enabled);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }
