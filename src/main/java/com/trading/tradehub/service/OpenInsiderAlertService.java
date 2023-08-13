@@ -1,6 +1,6 @@
 package com.trading.tradehub.service;
 
-import com.trading.tradehub.model.ClusterInsiderBuysModel;
+import com.trading.tradehub.model.ClusterInsiderBuyModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,24 @@ public class OpenInsiderAlertService
     private static final Logger logger = LoggerFactory.getLogger(OpenInsiderAlertService.class);
 
     // The refresh rate in milliseconds for checking new cluster buy events.
-    private static final int REFRESH_RATE_IN_MILLISECONDS = 900000;
-    private final TelegramBotService telegramBotService;
-    private final OpenInsiderWebScraperService openInsiderWebScraperService;
+    private static final int REFRESH_RATE_IN_MILLISECONDS = 2000;
+    private TelegramBotService telegramBotService;
+    private OpenInsiderWebScraperService openInsiderWebScraperService;
     // Holds the latest cluster insider buy event data.
-    private ClusterInsiderBuysModel latestClusterBuy = null;
+    private ClusterInsiderBuyModel latestClusterBuy;
     private boolean initialized = false;
+    private boolean clusterBuyAlertEnabled = false;
+
+    public void setClusterBuyAlertEnabled(boolean clusterBuyAlertEnabled)
+    {
+        this.clusterBuyAlertEnabled = clusterBuyAlertEnabled;
+    }
+
+    public boolean getClusterBuyAlertEnabled()
+    {
+        return clusterBuyAlertEnabled;
+    }
+
 
     @Autowired
     public OpenInsiderAlertService(
@@ -44,10 +56,14 @@ public class OpenInsiderAlertService
     @Scheduled(fixedRate = REFRESH_RATE_IN_MILLISECONDS)
     public void newClusterBuyAlert()
     {
+        if (!clusterBuyAlertEnabled)
+        {
+            return;
+        }
         try
         {
             // Get the latest cluster insider buys data from the web scraper.
-            ClusterInsiderBuysModel newClusterBuyModel = openInsiderWebScraperService.scrapeLatestClusterBuys().get(0);
+            ClusterInsiderBuyModel newClusterBuyModel = openInsiderWebScraperService.scrapeLatestClusterBuys().get(0);
 
             // Synchronize to avoid race conditions while updating the shared latestClusterBuy field.
             synchronized (this)
