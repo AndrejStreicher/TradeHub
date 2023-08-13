@@ -1,6 +1,6 @@
 package com.trading.tradehub.service;
 
-import com.trading.tradehub.model.ClusterInsiderBuysModel;
+import com.trading.tradehub.model.ClusterInsiderBuyModel;
 import com.trading.tradehub.util.UtilHTMLMethods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,12 +45,12 @@ public class TelegramBotService
     /**
      * Send a message to the specified Telegram chat group or user.
      *
-     * @param targetChat              The target chat group or user to send the message to.
-     * @param clusterInsiderBuysModel The ClusterInsiderBuysModel object containing information to include in the message.
+     * @param targetChat             The target chat group or user to send the message to.
+     * @param clusterInsiderBuyModel The ClusterInsiderBuysModel object containing information to include in the message.
      */
-    public void sendMessage(TargetChat targetChat, ClusterInsiderBuysModel clusterInsiderBuysModel)
+    public void sendMessage(TargetChat targetChat, ClusterInsiderBuyModel clusterInsiderBuyModel)
     {
-        HttpRequest request = buildMessageRequest(targetChat, buildClusterBuyMessage(clusterInsiderBuysModel));
+        HttpRequest request = buildMessageRequest(targetChat, buildClusterBuyMessage(clusterInsiderBuyModel));
         try
         {
             httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -89,26 +89,26 @@ public class TelegramBotService
     /**
      * Build the message to be sent to the Telegram chat.
      *
-     * @param clusterInsiderBuysModel The ClusterInsiderBuysModel object containing information to include in the message.
+     * @param clusterInsiderBuyModel The ClusterInsiderBuysModel object containing information to include in the message.
      * @return The formatted message to be sent.
      */
-    private String buildClusterBuyMessage(ClusterInsiderBuysModel clusterInsiderBuysModel)
+    private String buildClusterBuyMessage(ClusterInsiderBuyModel clusterInsiderBuyModel)
     {
         String messageToSend = UtilHTMLMethods.HTMLFileToString("src/main/resources/static/clusterBuyTelegramMessage.html");
         assert messageToSend != null;
         messageToSend = String.format(messageToSend,
-                clusterInsiderBuysModel.ticker(),
-                clusterInsiderBuysModel.ticker(),
-                clusterInsiderBuysModel.companyName(),
-                clusterInsiderBuysModel.industry(),
-                clusterInsiderBuysModel.amountOfInsiders(),
-                clusterInsiderBuysModel.price(),
-                clusterInsiderBuysModel.quantity(),
-                clusterInsiderBuysModel.ownedShares(),
-                clusterInsiderBuysModel.changeInOwnedShares(),
-                clusterInsiderBuysModel.value(),
-                clusterInsiderBuysModel.filingDate(),
-                clusterInsiderBuysModel.tradeDate());
+                clusterInsiderBuyModel.ticker(),
+                clusterInsiderBuyModel.ticker(),
+                clusterInsiderBuyModel.companyName(),
+                clusterInsiderBuyModel.industry(),
+                clusterInsiderBuyModel.amountOfInsiders(),
+                clusterInsiderBuyModel.price(),
+                clusterInsiderBuyModel.quantity(),
+                clusterInsiderBuyModel.ownedShares(),
+                clusterInsiderBuyModel.changeInOwnedShares(),
+                clusterInsiderBuyModel.value(),
+                clusterInsiderBuyModel.filingDate(),
+                clusterInsiderBuyModel.tradeDate());
         messageToSend = URLEncoder.encode(messageToSend, StandardCharsets.UTF_8);
         return messageToSend;
     }
