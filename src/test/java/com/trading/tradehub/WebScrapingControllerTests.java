@@ -2,12 +2,15 @@ package com.trading.tradehub;
 
 import com.trading.tradehub.controller.WebScrapingController;
 import com.trading.tradehub.model.ClusterInsiderBuyModel;
+import com.trading.tradehub.model.FundamentalTickerDataModel;
 import com.trading.tradehub.model.TickerInsiderTradeModel;
+import com.trading.tradehub.service.FinvizWebScraperService;
 import com.trading.tradehub.service.OpenInsiderWebScraperService;
 import com.trading.tradehub.service.YahooFinanceWebScraperService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
@@ -25,13 +28,15 @@ class WebScrapingControllerTests
     private OpenInsiderWebScraperService openInsiderWebScraperService;
     @MockBean
     private YahooFinanceWebScraperService yahooFinanceWebScraperService;
+    @MockBean
+    private FinvizWebScraperService finvizWebScraperService;
 
     private WebScrapingController webScrapingController;
 
     @BeforeEach
     void setUp()
     {
-        webScrapingController = new WebScrapingController(openInsiderWebScraperService, yahooFinanceWebScraperService);
+        webScrapingController = new WebScrapingController(openInsiderWebScraperService, yahooFinanceWebScraperService, finvizWebScraperService);
     }
 
     @Test
@@ -136,5 +141,29 @@ class WebScrapingControllerTests
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         Assertions.assertNull(response.getBody());
+    }
+
+    @Test
+    void getFundamentalData_TickerIsNull_StatusCode400()
+    {
+        ResponseEntity<FundamentalTickerDataModel> response = webScrapingController.getFundamentalData(null);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Assertions.assertNull(response.getBody());
+    }
+
+    @Test
+    void getFundamentalData_GetsValidFundamentalDataModelObject_StatusCode200()
+    {
+        String ticker = "aapl";
+        FundamentalTickerDataModel fundamentalTickerDataModelMocked = Mockito.mock(FundamentalTickerDataModel.class);
+        when(finvizWebScraperService.getFundamentalInfo(Mockito.anyString())).thenReturn(fundamentalTickerDataModelMocked);
+
+        ResponseEntity<FundamentalTickerDataModel> response = webScrapingController.getFundamentalData(ticker);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(fundamentalTickerDataModelMocked, response.getBody());
     }
 }

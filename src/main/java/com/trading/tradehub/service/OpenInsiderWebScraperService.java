@@ -1,6 +1,6 @@
 package com.trading.tradehub.service;
 
-import com.trading.tradehub.model.ClusterInsiderBuysModel;
+import com.trading.tradehub.model.ClusterInsiderBuyModel;
 import com.trading.tradehub.model.TickerInsiderTradeModel;
 import com.trading.tradehub.util.UtilHTMLMethods;
 import org.jsoup.nodes.Document;
@@ -32,7 +32,7 @@ public class OpenInsiderWebScraperService
      * If an exception occurs during the scraping process or there is no valid data to parse,
      * an empty list is returned.
      */
-    public List<ClusterInsiderBuysModel> scrapeLatestClusterBuys()
+    public List<ClusterInsiderBuyModel> scrapeLatestClusterBuys()
     {
         Document clusterBuysDoc = UtilHTMLMethods.getHTMLFromLink(OPEN_INSIDER_BASE_URL + "/latest-cluster-buys");
         assert clusterBuysDoc != null;
@@ -86,9 +86,9 @@ public class OpenInsiderWebScraperService
      * @param dateFormatter     The DateTimeFormatter for parsing date strings.
      * @return A list of ClusterInsiderBuysModel containing the parsed cluster insider buys data.
      */
-    private List<ClusterInsiderBuysModel> parseClusterBuys(Element tinyTable, DateTimeFormatter dateTimeFormatter, DateTimeFormatter dateFormatter)
+    private List<ClusterInsiderBuyModel> parseClusterBuys(Element tinyTable, DateTimeFormatter dateTimeFormatter, DateTimeFormatter dateFormatter)
     {
-        List<ClusterInsiderBuysModel> clusterBuys = new ArrayList<>();
+        List<ClusterInsiderBuyModel> clusterBuys = new ArrayList<>();
         for (Element row : tinyTable.child(1).children())
         {
             Elements columns = row.select("td");
@@ -104,7 +104,7 @@ public class OpenInsiderWebScraperService
             }
             String stringValue = columns.get(12).text().replace("$", "");
             int value = Integer.parseInt(stringValue.replace(",", ""));
-            ClusterInsiderBuysModel newClusterBuyModel = new ClusterInsiderBuysModel(columns.get(0).text(),
+            ClusterInsiderBuyModel newClusterBuyModel = new ClusterInsiderBuyModel(columns.get(0).text(),
                     filingDate,
                     tradeDate,
                     columns.get(3).text(),
