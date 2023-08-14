@@ -16,7 +16,7 @@ public class OpenInsiderAlertService
     private static final Logger logger = LoggerFactory.getLogger(OpenInsiderAlertService.class);
 
     // The refresh rate in milliseconds for checking new cluster buy events.
-    private static final int REFRESH_RATE_IN_MILLISECONDS = 2000;
+    private static final int REFRESH_RATE_IN_MILLISECONDS = 900000;
     private TelegramBotService telegramBotService;
     private OpenInsiderWebScraperService openInsiderWebScraperService;
     // Holds the latest cluster insider buy event data.
