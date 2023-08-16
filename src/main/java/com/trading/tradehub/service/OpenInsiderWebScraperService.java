@@ -34,7 +34,17 @@ public class OpenInsiderWebScraperService
      */
     public List<ClusterInsiderBuyModel> scrapeLatestClusterBuys()
     {
-        Document clusterBuysDoc = UtilHTMLMethods.getHTMLFromLink(OPEN_INSIDER_BASE_URL + "/latest-cluster-buys");
+        return scrapeClusterBuys(OPEN_INSIDER_BASE_URL + "/latest-cluster-buys");
+    }
+
+    public List<ClusterInsiderBuyModel> scrapeScreenedClusterBuys(String link)
+    {
+        return scrapeClusterBuys(link);
+    }
+
+    private List<ClusterInsiderBuyModel> scrapeClusterBuys(String link)
+    {
+        Document clusterBuysDoc = UtilHTMLMethods.getHTMLFromLink(link);
         assert clusterBuysDoc != null;
         Elements tinyTableClasses = clusterBuysDoc.getElementsByClass("tinytable");
         for (Element tinyTable : tinyTableClasses)
@@ -47,6 +57,7 @@ public class OpenInsiderWebScraperService
         // Return an empty list if there's an exception or no data to parse
         return Collections.emptyList();
     }
+
 
     /**
      * Scrapes the latest ticker insider trades data from the OpenInsider website for a given ticker symbol.
@@ -77,6 +88,7 @@ public class OpenInsiderWebScraperService
         // Return an empty ArrayList if there is no data to parse
         return new ArrayList<>();
     }
+
 
     /**
      * Parses the HTML elements and extracts the cluster insider buys data.

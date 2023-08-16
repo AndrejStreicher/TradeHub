@@ -50,6 +50,17 @@ public class WebScrapingController
         return ResponseEntity.ok(clusterBuys);
     }
 
+    @GetMapping("openinsider/clusterbuys/screener/{link}")
+    public ResponseEntity<List<ClusterInsiderBuyModel>> getScreenedClusterBuys(@PathVariable String link)
+    {
+        List<ClusterInsiderBuyModel> clusterBuys = openInsiderWebScraperService.scrapeScreenedClusterBuys(link);
+        if (clusterBuys.isEmpty())
+        {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(clusterBuys);
+    }
+
     /**
      * Endpoint to retrieve the latest insider buys for a specific ticker.
      *

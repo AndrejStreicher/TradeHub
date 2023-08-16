@@ -49,6 +49,7 @@ class WebScrapingControllerTests
         when(openInsiderWebScraperService.scrapeLatestClusterBuys()).thenReturn(clusterInsiderBuyModels);
 
         ResponseEntity<List<ClusterInsiderBuyModel>> response = webScrapingController.getLatestClusterBuys();
+        
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(clusterInsiderBuyModels, response.getBody());
@@ -59,7 +60,9 @@ class WebScrapingControllerTests
     {
         List<ClusterInsiderBuyModel> clusterInsiderBuyModels = Collections.emptyList();
         when(openInsiderWebScraperService.scrapeLatestClusterBuys()).thenReturn(clusterInsiderBuyModels);
+
         ResponseEntity<List<ClusterInsiderBuyModel>> response = webScrapingController.getLatestClusterBuys();
+
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         Assertions.assertNull(response.getBody());
@@ -73,6 +76,7 @@ class WebScrapingControllerTests
         when(openInsiderWebScraperService.scrapeLatestTickerClusterBuys("TEST")).thenReturn(tickerInsiderTradeModels);
 
         ResponseEntity<List<TickerInsiderTradeModel>> response = webScrapingController.getTickerInsiderTrades("TEST");
+
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(tickerInsiderTradeModels, response.getBody());
@@ -85,6 +89,7 @@ class WebScrapingControllerTests
         when(openInsiderWebScraperService.scrapeLatestTickerClusterBuys("TEST")).thenReturn(tickerInsiderTradeModels);
 
         ResponseEntity<List<TickerInsiderTradeModel>> response = webScrapingController.getTickerInsiderTrades("TEST");
+
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         Assertions.assertNull(response.getBody());
@@ -94,6 +99,7 @@ class WebScrapingControllerTests
     void getTickerInsiderTrades_TickerIsNull_StatusCode400()
     {
         ResponseEntity<List<TickerInsiderTradeModel>> response = webScrapingController.getTickerInsiderTrades(null);
+
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         Assertions.assertNull(response.getBody());
@@ -106,6 +112,7 @@ class WebScrapingControllerTests
         when(openInsiderWebScraperService.scrapeLatestTickerClusterBuys("TEST")).thenReturn(tickerInsiderTradeModels);
 
         ResponseEntity<List<TickerInsiderTradeModel>> response = webScrapingController.getTickerInsiderTrades("TEST");
+
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         Assertions.assertNull(response.getBody());
@@ -118,6 +125,7 @@ class WebScrapingControllerTests
         when(yahooFinanceWebScraperService.getCurrentPrice("TEST")).thenReturn(currentPrice);
 
         ResponseEntity<Optional<Double>> response = webScrapingController.getCurrentPrice("TEST");
+
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(currentPrice, response.getBody());
@@ -128,6 +136,7 @@ class WebScrapingControllerTests
     {
         Optional<Double> currentPrice = Optional.empty();
         when(yahooFinanceWebScraperService.getCurrentPrice("TEST")).thenReturn(currentPrice);
+
         ResponseEntity<Optional<Double>> response = webScrapingController.getCurrentPrice("TEST");
 
         Assertions.assertThrowsExactly(NoSuchElementException.class, currentPrice::get);
@@ -138,6 +147,7 @@ class WebScrapingControllerTests
     void getCurrentPrice_TickerIsNull_StatusCode400()
     {
         ResponseEntity<Optional<Double>> response = webScrapingController.getCurrentPrice(null);
+
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         Assertions.assertNull(response.getBody());
@@ -165,5 +175,32 @@ class WebScrapingControllerTests
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(fundamentalTickerDataModelMocked, response.getBody());
+    }
+
+    @Test
+    void getScreenedClusterBuys_GetsValidLink_StatusCode200()
+    {
+        String link = "http://openinsider.com/screener?s=&o=&pl=3&ph=&ll=&lh=&fd=90&fdr=&td=0&tdr=&fdlyl=&fdlyh=6&daysago=&xp=1&vl=25&vh=&ocl=1&och=&sic1=-1&sicl=100&sich=9999&grp=2&nfl=&nfh=&nil=6&nih=&nol=1&noh=&v2l=&v2h=&oc2l=&oc2h=&sortcol=0&cnt=200&page=1";
+        List<ClusterInsiderBuyModel> clusterInsiderBuyModelList = new ArrayList<>();
+        ClusterInsiderBuyModel clusterInsiderBuyModel = Mockito.mock(ClusterInsiderBuyModel.class);
+        clusterInsiderBuyModelList.add(clusterInsiderBuyModel);
+
+        when(openInsiderWebScraperService.scrapeScreenedClusterBuys(link)).thenReturn(clusterInsiderBuyModelList);
+        ResponseEntity<List<ClusterInsiderBuyModel>> response = webScrapingController.getScreenedClusterBuys(link);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void getScreenedClusterBuys_GetsInvalidLink_StatusCode400()
+    {
+        String link = "http://openinsom/screener?s=&o=&pdr=&fdlyl=&fdlyh=6&daysago=&xp=1&vl=25&vh=&ocl=1&och=&sic1=-1&sicl=100&sich=9999&grp=2&nfl=&nfh=&nil=6&nih=&nol=1&noh=&v2l=&v2h=&oc2l=&oc2h=&sortcol=0&cnt=200&page=1";
+
+        ResponseEntity<List<ClusterInsiderBuyModel>> response = webScrapingController.getScreenedClusterBuys(link);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Assertions.assertNull(response.getBody());
     }
 }
