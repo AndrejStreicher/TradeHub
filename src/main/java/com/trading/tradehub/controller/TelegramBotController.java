@@ -1,7 +1,7 @@
 package com.trading.tradehub.controller;
 
 import com.trading.tradehub.model.TelegramUpdateModel;
-import com.trading.tradehub.service.telegram.TelegramBotService;
+import com.trading.tradehub.service.telegram.TelegramCommandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,17 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/telegram")
 public class TelegramBotController
 {
-    private final TelegramBotService telegramBotService;
+    private TelegramCommandService telegramCommandService;
 
     @Autowired
-    public TelegramBotController(TelegramBotService telegramBotService)
+    public TelegramBotController(TelegramCommandService telegramCommandService)
     {
-        this.telegramBotService = telegramBotService;
+        this.telegramCommandService = telegramCommandService;
     }
 
     @PostMapping("/webhook")
     public ResponseEntity<String> handleWebhook(@RequestBody TelegramUpdateModel update)
     {
+        telegramCommandService.handleUpdate(update);
         return ResponseEntity.ok("OK");
     }
 }
