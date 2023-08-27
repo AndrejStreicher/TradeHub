@@ -1,7 +1,7 @@
 package com.trading.tradehub.model;
 
 public record TelegramUserModel(
-        Integer id,
+        Long id,
         Boolean isBot,
         String firstName,
         String lastName,
