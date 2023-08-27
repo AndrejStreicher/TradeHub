@@ -1,4 +1,4 @@
-package com.trading.tradehub.service.messaging;
+package com.trading.tradehub.service.telegram;
 
 import com.trading.tradehub.model.ClusterInsiderBuyModel;
 import com.trading.tradehub.util.UtilHTMLMethods;
@@ -31,6 +31,8 @@ public class TelegramBotService
     private String groupChatID;
     @Value("${telegram.botAPI.key}")
     private String telegramBotAPIKey;
+    @Value("@{server.domain}")
+    private String serverDomain;
 
     /**
      * Enum representing the target chat group or user for sending the message.
@@ -42,6 +44,11 @@ public class TelegramBotService
         TEST
     }
 
+    public TelegramBotService()
+    {
+        setTelegramUpdateWebhook();
+    }
+
     /**
      * Send a message to the specified Telegram chat group or user.
      *
@@ -50,10 +57,53 @@ public class TelegramBotService
      */
     public void sendMessage(TargetChat targetChat, ClusterInsiderBuyModel clusterInsiderBuyModel)
     {
+        sendClusterBuyMessage(targetChat, clusterInsiderBuyModel);
+    }
+
+    public void sendMessage(TargetChat targetChat, String message)
+    {
+
+    }
+
+    private void sendClusterBuyMessage(TargetChat targetChat, ClusterInsiderBuyModel clusterInsiderBuyModel)
+    {
         HttpRequest request = buildMessageRequest(targetChat, buildClusterBuyMessage(clusterInsiderBuyModel));
         try
         {
             httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e)
+        {
+            logger.error("Error occurred while processing the data.", e);
+        } catch (InterruptedException e)
+        {
+            logger.error("Thread was interrupted during data processing.", e);
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void sendCustomMessage(TargetChat targetChat, String message)
+    {
+        HttpRequest request = buildMessageRequest(targetChat, message);
+        try
+        {
+            httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e)
+        {
+            logger.error("Error occurred while processing the data.", e);
+        } catch (InterruptedException e)
+        {
+            logger.error("Thread was interrupted during data processing.", e);
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void setTelegramUpdateWebhook()
+    {
+        String urlString = getBaseBotUrl() + "/setWebhook" + "?url=" + serverDomain + "telegram/webhook";
+        HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(urlString)).GET().build();
+        try
+        {
+            httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
         } catch (IOException e)
         {
             logger.error("Error occurred while processing the data.", e);
