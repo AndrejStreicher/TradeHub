@@ -34,17 +34,10 @@ public class YahooFinanceWebScraperService
     public Optional<Double> getCurrentPrice(String ticker)
     {
         Document quoteDocument = UtilHTMLMethods.getHTMLFromLink(BASE_URL + "quote/" + ticker);
-        if (quoteDocument.location().contains("lookup"))
-        {
-            return Optional.empty();
-        }
-        Elements currentPriceElements = quoteDocument.select("fin-streamer[data-symbol=" + ticker + "]");
-
-        Element priceElement = currentPriceElements.first();
-        String priceString = priceElement.attr("value");
-
-        return Optional.of(Double.parseDouble(priceString));
+        assert quoteDocument != null;
+        return getPriceFromDocument(quoteDocument, ticker);
     }
+
 
     public List<HistoricalDataModel> getHistoricalData(String ticker, LocalDate period1, LocalDate period2, String interval)
     {
@@ -81,5 +74,19 @@ public class YahooFinanceWebScraperService
             historicalDataModels.add(newHistoricalDataModel);
         }
         return historicalDataModels;
+    }
+
+    private Optional<Double> getPriceFromDocument(Document document, String ticker)
+    {
+        if (document.location().contains("lookup"))
+        {
+            return Optional.empty();
+        }
+        Elements currentPriceElements = document.select("fin-streamer[data-symbol=" + ticker + "]");
+
+        Element priceElement = currentPriceElements.first();
+        String priceString = priceElement.attr("value");
+
+        return Optional.of(Double.parseDouble(priceString));
     }
 }
