@@ -57,31 +57,15 @@ public class TelegramBotService
      */
     public void sendMessage(TargetChat targetChat, ClusterInsiderBuyModel clusterInsiderBuyModel)
     {
-        sendClusterBuyMessage(targetChat, clusterInsiderBuyModel);
+        sendMessageToTelegram(targetChat, buildClusterBuyMessage(clusterInsiderBuyModel));
     }
 
     public void sendMessage(TargetChat targetChat, String message)
     {
-
+        sendMessageToTelegram(targetChat, message);
     }
 
-    private void sendClusterBuyMessage(TargetChat targetChat, ClusterInsiderBuyModel clusterInsiderBuyModel)
-    {
-        HttpRequest request = buildMessageRequest(targetChat, buildClusterBuyMessage(clusterInsiderBuyModel));
-        try
-        {
-            httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException e)
-        {
-            logger.error("Error occurred while processing the data.", e);
-        } catch (InterruptedException e)
-        {
-            logger.error("Thread was interrupted during data processing.", e);
-            Thread.currentThread().interrupt();
-        }
-    }
-
-    private void sendCustomMessage(TargetChat targetChat, String message)
+    private void sendMessageToTelegram(TargetChat targetChat, String message)
     {
         HttpRequest request = buildMessageRequest(targetChat, message);
         try
