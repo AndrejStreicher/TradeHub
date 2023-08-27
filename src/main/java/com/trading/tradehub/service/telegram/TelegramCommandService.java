@@ -26,6 +26,6 @@ public class TelegramCommandService
 
     private void CommandIsTicker(String ticker)
     {
-        telegramBotService.sendMessage(TelegramBotService.TargetChat.PERSONAL, "Ticker:" + ticker);
+        telegramBotService.sendMessage(TelegramBotService.TargetChat.PERSONAL, "Ticker " + ticker);
     }
 }

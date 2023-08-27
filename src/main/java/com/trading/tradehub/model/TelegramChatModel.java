@@ -1,7 +1,7 @@
 package com.trading.tradehub.model;
 
 public record TelegramChatModel(
-        Integer id,
+        Long id,
         String type,
         String title,
         String username,
