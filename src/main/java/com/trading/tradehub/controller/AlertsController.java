@@ -1,6 +1,6 @@
 package com.trading.tradehub.controller;
 
-import com.trading.tradehub.service.OpenInsiderAlertService;
+import com.trading.tradehub.service.alerts.OpenInsiderAlertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

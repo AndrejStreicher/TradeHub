@@ -3,9 +3,9 @@ package com.trading.tradehub.controller;
 import com.trading.tradehub.model.ClusterInsiderBuyModel;
 import com.trading.tradehub.model.FundamentalTickerDataModel;
 import com.trading.tradehub.model.TickerInsiderTradeModel;
-import com.trading.tradehub.service.FinvizWebScraperService;
-import com.trading.tradehub.service.OpenInsiderWebScraperService;
-import com.trading.tradehub.service.YahooFinanceWebScraperService;
+import com.trading.tradehub.service.webscraping.FinvizWebScraperService;
+import com.trading.tradehub.service.webscraping.OpenInsiderWebScraperService;
+import com.trading.tradehub.service.webscraping.YahooFinanceWebScraperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/webscrape")
+@RequestMapping("/webscraping")
 public class WebScrapingController
 {
 

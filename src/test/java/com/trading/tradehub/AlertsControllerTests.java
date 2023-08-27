@@ -1,7 +1,7 @@
 package com.trading.tradehub;
 
 import com.trading.tradehub.controller.AlertsController;
-import com.trading.tradehub.service.OpenInsiderAlertService;
+import com.trading.tradehub.service.alerts.OpenInsiderAlertService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

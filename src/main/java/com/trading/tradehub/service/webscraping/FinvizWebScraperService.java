@@ -1,4 +1,4 @@
-package com.trading.tradehub.service;
+package com.trading.tradehub.service.webscraping;
 
 import com.trading.tradehub.exceptions.TickerNotFoundException;
 import com.trading.tradehub.model.FundamentalTickerDataModel;

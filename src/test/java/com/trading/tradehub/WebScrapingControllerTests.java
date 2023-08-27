@@ -4,9 +4,9 @@ import com.trading.tradehub.controller.WebScrapingController;
 import com.trading.tradehub.model.ClusterInsiderBuyModel;
 import com.trading.tradehub.model.FundamentalTickerDataModel;
 import com.trading.tradehub.model.TickerInsiderTradeModel;
-import com.trading.tradehub.service.FinvizWebScraperService;
-import com.trading.tradehub.service.OpenInsiderWebScraperService;
-import com.trading.tradehub.service.YahooFinanceWebScraperService;
+import com.trading.tradehub.service.webscraping.FinvizWebScraperService;
+import com.trading.tradehub.service.webscraping.OpenInsiderWebScraperService;
+import com.trading.tradehub.service.webscraping.YahooFinanceWebScraperService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,7 +49,7 @@ class WebScrapingControllerTests
         when(openInsiderWebScraperService.scrapeLatestClusterBuys()).thenReturn(clusterInsiderBuyModels);
 
         ResponseEntity<List<ClusterInsiderBuyModel>> response = webScrapingController.getLatestClusterBuys();
-        
+
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(clusterInsiderBuyModels, response.getBody());

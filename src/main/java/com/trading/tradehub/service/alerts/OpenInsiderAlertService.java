@@ -1,6 +1,8 @@
-package com.trading.tradehub.service;
+package com.trading.tradehub.service.alerts;
 
 import com.trading.tradehub.model.ClusterInsiderBuyModel;
+import com.trading.tradehub.service.messaging.TelegramBotService;
+import com.trading.tradehub.service.webscraping.OpenInsiderWebScraperService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
 package com.trading.tradehub;
 
 import com.trading.tradehub.model.ClusterInsiderBuyModel;
-import com.trading.tradehub.service.OpenInsiderAlertService;
-import com.trading.tradehub.service.OpenInsiderWebScraperService;
-import com.trading.tradehub.service.TelegramBotService;
+import com.trading.tradehub.service.alerts.OpenInsiderAlertService;
+import com.trading.tradehub.service.messaging.TelegramBotService;
+import com.trading.tradehub.service.webscraping.OpenInsiderWebScraperService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

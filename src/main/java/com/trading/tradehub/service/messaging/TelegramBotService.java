@@ -1,4 +1,4 @@
-package com.trading.tradehub.service;
+package com.trading.tradehub.service.messaging;
 
 import com.trading.tradehub.model.ClusterInsiderBuyModel;
 import com.trading.tradehub.util.UtilHTMLMethods;
