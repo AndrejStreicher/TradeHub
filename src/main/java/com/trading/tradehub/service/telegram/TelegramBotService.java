@@ -2,6 +2,7 @@ package com.trading.tradehub.service.telegram;
 
 import com.trading.tradehub.model.ClusterInsiderBuyModel;
 import com.trading.tradehub.util.UtilHTMLMethods;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,11 +45,6 @@ public class TelegramBotService
         TEST
     }
 
-    public TelegramBotService()
-    {
-        setTelegramUpdateWebhook();
-    }
-
     /**
      * Send a message to the specified Telegram chat group or user.
      *
@@ -81,6 +77,7 @@ public class TelegramBotService
         }
     }
 
+    @PostConstruct
     private void setTelegramUpdateWebhook()
     {
         String urlString = getBaseBotUrl() + "/setWebhook" + "?url=" + serverDomain + "telegram/webhook";
