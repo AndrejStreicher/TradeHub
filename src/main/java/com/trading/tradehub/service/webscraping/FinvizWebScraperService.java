@@ -3,6 +3,7 @@ package com.trading.tradehub.service.webscraping;
 import com.trading.tradehub.exceptions.TickerNotFoundException;
 import com.trading.tradehub.model.FundamentalTickerDataModel;
 import com.trading.tradehub.util.UtilHTMLMethods;
+import com.trading.tradehub.util.UtilStringMethods;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -42,87 +43,87 @@ public class FinvizWebScraperService
     {
         Elements tableData = table.select("td.snapshot-td2");
         String index = tableData.get(0).text();
-        double priceToEarnings = parseStringDouble(tableData.get(1).text());
-        double dilutedEarningPerShare = parseStringDouble(tableData.get(2).text());
-        double insiderOwnership = parseStringDouble(tableData.get(3).text().replace("%", ""));
-        double sharesOutstanding = parseStringDouble(tableData.get(4).text());
-        double performanceWeek = parseStringDouble(tableData.get(5).text());
-        double marketCap = parseStringDouble(tableData.get(6).text());
-        double forwardPriceToEarnings = parseStringDouble(tableData.get(7).text());
-        double earningPerShareEstimateNextY = parseStringDouble(tableData.get(8).text());
-        double insiderTransactions = parseStringDouble(tableData.get(9).text());
-        double sharesFloat = parseStringDouble(tableData.get(10).text());
-        double performanceMonth = parseStringDouble(tableData.get(11).text());
-        double income = parseStringDouble(tableData.get(12).text());
-        double priceToEarningsToGrowth = parseStringDouble(tableData.get(13).text());
-        double earningsPerShareEstimateNextQuarter = parseStringDouble(tableData.get(14).text());
-        double institutionalOwnership = parseStringDouble(tableData.get(15).text());
+        double priceToEarnings = UtilStringMethods.parseStringDouble(tableData.get(1).text());
+        double dilutedEarningPerShare = UtilStringMethods.parseStringDouble(tableData.get(2).text());
+        double insiderOwnership = UtilStringMethods.parseStringDouble(tableData.get(3).text().replace("%", ""));
+        double sharesOutstanding = UtilStringMethods.parseStringDouble(tableData.get(4).text());
+        double performanceWeek = UtilStringMethods.parseStringDouble(tableData.get(5).text());
+        double marketCap = UtilStringMethods.parseStringDouble(tableData.get(6).text());
+        double forwardPriceToEarnings = UtilStringMethods.parseStringDouble(tableData.get(7).text());
+        double earningPerShareEstimateNextY = UtilStringMethods.parseStringDouble(tableData.get(8).text());
+        double insiderTransactions = UtilStringMethods.parseStringDouble(tableData.get(9).text());
+        double sharesFloat = UtilStringMethods.parseStringDouble(tableData.get(10).text());
+        double performanceMonth = UtilStringMethods.parseStringDouble(tableData.get(11).text());
+        double income = UtilStringMethods.parseStringDouble(tableData.get(12).text());
+        double priceToEarningsToGrowth = UtilStringMethods.parseStringDouble(tableData.get(13).text());
+        double earningsPerShareEstimateNextQuarter = UtilStringMethods.parseStringDouble(tableData.get(14).text());
+        double institutionalOwnership = UtilStringMethods.parseStringDouble(tableData.get(15).text());
         String[] shortFloatInterestRatio = tableData.get(16).text().split("/");
-        double shortInterestShare = parseStringDouble(shortFloatInterestRatio[0]);
-        double shortInterestShareRatio = parseStringDouble(shortFloatInterestRatio[1]);
-        double performanceQuarter = parseStringDouble(tableData.get(17).text());
-        double revenue = parseStringDouble(tableData.get(18).text());
-        double priceToSales = parseStringDouble(tableData.get(19).text());
-        double earningsPerShareGrowthThisYear = parseStringDouble(tableData.get(20).text());
-        double institutionalTransactions = parseStringDouble(tableData.get(21).text());
-        double shortInterest = parseStringDouble(tableData.get(22).text());
-        double performanceHalfY = parseStringDouble(tableData.get(23).text());
-        double bookValuePerShare = parseStringDouble(tableData.get(24).text());
-        double priceToBook = parseStringDouble(tableData.get(25).text());
-        double earningsPerShareGrowthNextYear = parseStringDouble(tableData.get(26).text());
-        double returnOnAssets = parseStringDouble(tableData.get(27).text());
-        double analystsMeanTargetPrice = parseStringDouble(tableData.get(28).text());
-        double performanceYear = parseStringDouble(tableData.get(29).text());
-        double cashPerShare = parseStringDouble(tableData.get(30).text());
-        double priceToCashPerShare = parseStringDouble(tableData.get(31).text());
-        double earningsPerShareNext5Years = parseStringDouble(tableData.get(32).text());
-        double returnOnEquity = parseStringDouble(tableData.get(33).text());
+        double shortInterestShare = UtilStringMethods.parseStringDouble(shortFloatInterestRatio[0]);
+        double shortInterestShareRatio = UtilStringMethods.parseStringDouble(shortFloatInterestRatio[1]);
+        double performanceQuarter = UtilStringMethods.parseStringDouble(tableData.get(17).text());
+        double revenue = UtilStringMethods.parseStringDouble(tableData.get(18).text());
+        double priceToSales = UtilStringMethods.parseStringDouble(tableData.get(19).text());
+        double earningsPerShareGrowthThisYear = UtilStringMethods.parseStringDouble(tableData.get(20).text());
+        double institutionalTransactions = UtilStringMethods.parseStringDouble(tableData.get(21).text());
+        double shortInterest = UtilStringMethods.parseStringDouble(tableData.get(22).text());
+        double performanceHalfY = UtilStringMethods.parseStringDouble(tableData.get(23).text());
+        double bookValuePerShare = UtilStringMethods.parseStringDouble(tableData.get(24).text());
+        double priceToBook = UtilStringMethods.parseStringDouble(tableData.get(25).text());
+        double earningsPerShareGrowthNextYear = UtilStringMethods.parseStringDouble(tableData.get(26).text());
+        double returnOnAssets = UtilStringMethods.parseStringDouble(tableData.get(27).text());
+        double analystsMeanTargetPrice = UtilStringMethods.parseStringDouble(tableData.get(28).text());
+        double performanceYear = UtilStringMethods.parseStringDouble(tableData.get(29).text());
+        double cashPerShare = UtilStringMethods.parseStringDouble(tableData.get(30).text());
+        double priceToCashPerShare = UtilStringMethods.parseStringDouble(tableData.get(31).text());
+        double earningsPerShareNext5Years = UtilStringMethods.parseStringDouble(tableData.get(32).text());
+        double returnOnEquity = UtilStringMethods.parseStringDouble(tableData.get(33).text());
         String[] lowHigh52Week = tableData.get(34).text().split("-");
-        double low52Week = parseStringDouble(lowHigh52Week[0]);
-        double high52Week = parseStringDouble(lowHigh52Week[1]);
-        double performanceYearToDate = parseStringDouble(tableData.get(35).text());
-        double annualDividend = parseStringDouble(tableData.get(36).text());
-        double priceToFreeCashFlowAfterDividends = parseStringDouble(tableData.get(37).text());
-        double earningsPerShareGrowthPast5Years = parseStringDouble(tableData.get(38).text());
-        double returnOnInvestment = parseStringDouble(tableData.get(39).text());
-        double distanceFrom52WeekHigh = parseStringDouble(tableData.get(40).text());
-        double beta = parseStringDouble(tableData.get(41).text());
-        double dividendPercent = parseStringDouble(tableData.get(42).text().replace("%", ""));
-        double quickRatio = parseStringDouble(tableData.get(43).text());
-        double salesPast5Years = parseStringDouble(tableData.get(44).text());
-        double grossMargin = parseStringDouble(tableData.get(45).text());
-        double distanceFrom52WeekLow = parseStringDouble(tableData.get(46).text());
-        double averageTrueRange = parseStringDouble(tableData.get(47).text());
+        double low52Week = UtilStringMethods.parseStringDouble(lowHigh52Week[0]);
+        double high52Week = UtilStringMethods.parseStringDouble(lowHigh52Week[1]);
+        double performanceYearToDate = UtilStringMethods.parseStringDouble(tableData.get(35).text());
+        double annualDividend = UtilStringMethods.parseStringDouble(tableData.get(36).text());
+        double priceToFreeCashFlowAfterDividends = UtilStringMethods.parseStringDouble(tableData.get(37).text());
+        double earningsPerShareGrowthPast5Years = UtilStringMethods.parseStringDouble(tableData.get(38).text());
+        double returnOnInvestment = UtilStringMethods.parseStringDouble(tableData.get(39).text());
+        double distanceFrom52WeekHigh = UtilStringMethods.parseStringDouble(tableData.get(40).text());
+        double beta = UtilStringMethods.parseStringDouble(tableData.get(41).text());
+        double dividendPercent = UtilStringMethods.parseStringDouble(tableData.get(42).text().replace("%", ""));
+        double quickRatio = UtilStringMethods.parseStringDouble(tableData.get(43).text());
+        double salesPast5Years = UtilStringMethods.parseStringDouble(tableData.get(44).text());
+        double grossMargin = UtilStringMethods.parseStringDouble(tableData.get(45).text());
+        double distanceFrom52WeekLow = UtilStringMethods.parseStringDouble(tableData.get(46).text());
+        double averageTrueRange = UtilStringMethods.parseStringDouble(tableData.get(47).text());
         int employees = Integer.parseInt(tableData.get(48).text());
-        double currentRatio = parseStringDouble(tableData.get(49).text());
-        double quarterlyRevenueGrowth = parseStringDouble(tableData.get(50).text());
-        double operatingMargin = parseStringDouble(tableData.get(51).text());
-        double relativeStrengthIndex14 = parseStringDouble(tableData.get(52).text());
+        double currentRatio = UtilStringMethods.parseStringDouble(tableData.get(49).text());
+        double quarterlyRevenueGrowth = UtilStringMethods.parseStringDouble(tableData.get(50).text());
+        double operatingMargin = UtilStringMethods.parseStringDouble(tableData.get(51).text());
+        double relativeStrengthIndex14 = UtilStringMethods.parseStringDouble(tableData.get(52).text());
         String[] volatilityWeekMonth = tableData.get(53).text().split(" ");
-        double volatilityWeek = parseStringDouble(volatilityWeekMonth[0]);
-        double volatilityMonth = parseStringDouble(volatilityWeekMonth[1]);
+        double volatilityWeek = UtilStringMethods.parseStringDouble(volatilityWeekMonth[0]);
+        double volatilityMonth = UtilStringMethods.parseStringDouble(volatilityWeekMonth[1]);
         boolean optionable = tableData.get(54).text().equals("Yes");
-        double debtToEquity = parseStringDouble(tableData.get(55).text());
-        double quarterlyEarningsGrowth = parseStringDouble(tableData.get(56).text());
-        double profitMargin = parseStringDouble(tableData.get(57).text());
-        double relativeVolume = parseStringDouble(tableData.get(58).text());
-        double previousClose = parseStringDouble(tableData.get(59).text());
+        double debtToEquity = UtilStringMethods.parseStringDouble(tableData.get(55).text());
+        double quarterlyEarningsGrowth = UtilStringMethods.parseStringDouble(tableData.get(56).text());
+        double profitMargin = UtilStringMethods.parseStringDouble(tableData.get(57).text());
+        double relativeVolume = UtilStringMethods.parseStringDouble(tableData.get(58).text());
+        double previousClose = UtilStringMethods.parseStringDouble(tableData.get(59).text());
         boolean shortable = tableData.get(60).text().equals("Yes");
-        double longTermDebtToEquity = parseStringDouble(tableData.get(61).text());
+        double longTermDebtToEquity = UtilStringMethods.parseStringDouble(tableData.get(61).text());
         MonthDay earningsDate = MonthDay.parse(tableData.get(62).text().replace("AMC", "").replace("BMC", "").trim(), new DateTimeFormatterBuilder()
                 .parseCaseInsensitive()
                 .appendPattern("MMM dd")
                 .toFormatter());
         boolean earningDateAfterMarketClose = tableData.get(62).text().contains("AMC");
-        double dividendPayoutRatio = parseStringDouble(tableData.get(63).text());
-        double averageVolume = parseStringDouble(tableData.get(64).text());
-        double price = parseStringDouble(tableData.get(65).text());
-        double analystsMeanRecommendation = parseStringDouble(tableData.get(66).text());
-        double simpleMovingAverage20 = parseStringDouble(tableData.get(67).text());
-        double simpleMovingAverage50 = parseStringDouble(tableData.get(68).text());
-        double simpleMovingAverage200 = parseStringDouble(tableData.get(69).text());
+        double dividendPayoutRatio = UtilStringMethods.parseStringDouble(tableData.get(63).text());
+        double averageVolume = UtilStringMethods.parseStringDouble(tableData.get(64).text());
+        double price = UtilStringMethods.parseStringDouble(tableData.get(65).text());
+        double analystsMeanRecommendation = UtilStringMethods.parseStringDouble(tableData.get(66).text());
+        double simpleMovingAverage20 = UtilStringMethods.parseStringDouble(tableData.get(67).text());
+        double simpleMovingAverage50 = UtilStringMethods.parseStringDouble(tableData.get(68).text());
+        double simpleMovingAverage200 = UtilStringMethods.parseStringDouble(tableData.get(69).text());
         int volume = Integer.parseInt(tableData.get(70).text().replace(",", ""));
-        double performanceToday = parseStringDouble(tableData.get(71).text());
+        double performanceToday = UtilStringMethods.parseStringDouble(tableData.get(71).text());
         return new FundamentalTickerDataModel(
                 index,
                 priceToEarnings,
@@ -204,30 +205,4 @@ public class FinvizWebScraperService
 
     }
 
-    private double parseStringDouble(String number)
-    {
-        double scaleFactor = Math.pow(10, 4);
-        double finalNumber;
-        if (number.contains("B"))
-        {
-            finalNumber = Double.parseDouble(number.replace("B", "")) * 1000000000;
-            return Math.round(finalNumber * scaleFactor) / scaleFactor;
-        }
-        if (number.contains("M"))
-        {
-            finalNumber = Double.parseDouble(number.replace("M", "")) * 1000000;
-            return Math.round(finalNumber * scaleFactor) / scaleFactor;
-        }
-        if (number.contains("K"))
-        {
-            finalNumber = Double.parseDouble(number.replace("K", "")) * 1000;
-            return Math.round(finalNumber * scaleFactor) / scaleFactor;
-        }
-        if (number.contains("%"))
-        {
-            finalNumber = Double.parseDouble(number.replace("%", "")) / 100;
-            return Math.round(finalNumber * scaleFactor) / scaleFactor;
-        }
-        return number.isEmpty() ? 0 : Double.parseDouble(number);
-    }
 }
