@@ -104,7 +104,7 @@ public class YahooFinanceWebScraperService
         {
             return new String[0];
         }
-        Elements stockNameAndTickerElements = document.select("D(ib) Fz(18px)");
+        Element stockNameAndTickerElements = document.select("h1.D(ib).Fz(18px)").first();
         String[] stockNameAndTickerArray = stockNameAndTickerElements.text().split("[()]");
         stockNameAndTickerArray[0] = stockNameAndTickerArray[0].trim();
         stockNameAndTickerArray[1] = stockNameAndTickerArray[1].trim();
