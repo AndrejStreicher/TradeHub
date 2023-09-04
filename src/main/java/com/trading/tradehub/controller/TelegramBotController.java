@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/telegram")
 public class TelegramBotController
 {
-    private TelegramCommandService telegramCommandService;
+    private final TelegramCommandService telegramCommandService;
 
     @Autowired
     public TelegramBotController(TelegramCommandService telegramCommandService)

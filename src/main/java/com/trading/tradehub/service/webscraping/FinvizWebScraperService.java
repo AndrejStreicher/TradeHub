@@ -36,6 +36,7 @@ public class FinvizWebScraperService
             logger.error("Ticker not found!", e);
         }
         Element fundamentalDataDiv = finvizDocument.select("div.snapshot-table-wrapper").first();
+        assert fundamentalDataDiv != null;
         return parseFundamentalData(fundamentalDataDiv.child(0));
     }
 

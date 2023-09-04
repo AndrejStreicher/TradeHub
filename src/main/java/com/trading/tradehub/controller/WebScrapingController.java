@@ -22,9 +22,9 @@ import java.util.Optional;
 public class WebScrapingController
 {
 
-    private OpenInsiderWebScraperService openInsiderWebScraperService;
-    private YahooFinanceWebScraperService yahooFinanceWebScraperService;
-    private FinvizWebScraperService finvizWebScraperService;
+    private final OpenInsiderWebScraperService openInsiderWebScraperService;
+    private final YahooFinanceWebScraperService yahooFinanceWebScraperService;
+    private final FinvizWebScraperService finvizWebScraperService;
 
     @Autowired
     public WebScrapingController(OpenInsiderWebScraperService openInsiderWebScraperService, YahooFinanceWebScraperService yahooFinanceWebScraperService, FinvizWebScraperService finvizWebScraperService)
