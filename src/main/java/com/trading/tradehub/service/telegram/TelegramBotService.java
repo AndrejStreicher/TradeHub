@@ -33,7 +33,7 @@ public class TelegramBotService
     private String groupChatID;
     @Value("${telegram.botAPI.key}")
     private String telegramBotAPIKey;
-    @Value("@{server.domain}")
+    @Value("${server.domain}")
     private String serverDomain;
 
     /**
