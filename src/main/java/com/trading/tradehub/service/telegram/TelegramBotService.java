@@ -1,6 +1,7 @@
 package com.trading.tradehub.service.telegram;
 
 import com.trading.tradehub.model.ClusterInsiderBuyModel;
+import com.trading.tradehub.model.TickerSummaryModel;
 import com.trading.tradehub.util.UtilHTMLMethods;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -56,10 +57,16 @@ public class TelegramBotService
         sendMessageToTelegram(targetChat, buildClusterBuyMessage(clusterInsiderBuyModel));
     }
 
+    public void sendMessage(TargetChat targetChat, TickerSummaryModel tickerSummaryModel)
+    {
+        sendMessageToTelegram(targetChat, buildTickerSummaryMessage(tickerSummaryModel));
+    }
+
     public void sendMessage(TargetChat targetChat, String message)
     {
         sendMessageToTelegram(targetChat, message);
     }
+
 
     private void sendMessageToTelegram(TargetChat targetChat, String message)
     {
@@ -140,8 +147,36 @@ public class TelegramBotService
                 clusterInsiderBuyModel.value(),
                 clusterInsiderBuyModel.filingDate(),
                 clusterInsiderBuyModel.tradeDate());
-        messageToSend = URLEncoder.encode(messageToSend, StandardCharsets.UTF_8);
-        return messageToSend;
+        return URLEncoder.encode(messageToSend, StandardCharsets.UTF_8);
+    }
+
+    private String buildTickerSummaryMessage(TickerSummaryModel tickerSummaryModel)
+    {
+        String messageToSend = UtilHTMLMethods.HTMLFileToString("src/main/resources/static/tickerInfoTelegramMessage.html");
+        assert messageToSend != null;
+        String marketOpenMessage;
+        if (tickerSummaryModel.isOpen())
+        {
+            marketOpenMessage = "Open";
+        } else
+        {
+            marketOpenMessage = "Closed";
+        }
+        messageToSend = String.format(messageToSend,
+                tickerSummaryModel.ticker(),
+                tickerSummaryModel.companyName(),
+                tickerSummaryModel.marketCap(),
+                tickerSummaryModel.isOpen(),
+                marketOpenMessage,
+                tickerSummaryModel.currentPrice(),
+                tickerSummaryModel.changeSinceOpen(),
+                tickerSummaryModel.changeSinceOpenPercent(),
+                tickerSummaryModel.fiftyTwoWeekLow(),
+                tickerSummaryModel.fiftyTwoWeekHigh(),
+                tickerSummaryModel.volume(),
+                tickerSummaryModel.averageVolume()
+        );
+        return URLEncoder.encode(messageToSend, StandardCharsets.UTF_8);
     }
 
     private String getBaseBotUrl()
