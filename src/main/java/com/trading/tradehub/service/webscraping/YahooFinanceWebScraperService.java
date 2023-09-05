@@ -107,7 +107,6 @@ public class YahooFinanceWebScraperService
         Element divElement = document.select("div.D(ib)").first();
         assert divElement != null;
         Element h1Element = divElement.select("h1.D(ib)").first();
-        assert h1Element != null;
         String[] stockNameAndTickerArray = h1Element.text().split("[()]");
         stockNameAndTickerArray[0] = stockNameAndTickerArray[0].trim();
         stockNameAndTickerArray[1] = stockNameAndTickerArray[1].trim();
