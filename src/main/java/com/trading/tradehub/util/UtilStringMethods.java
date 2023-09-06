@@ -6,6 +6,11 @@ public class UtilStringMethods
     {
         double scaleFactor = Math.pow(10, 4);
         double finalNumber;
+        if (number.contains("T"))
+        {
+            finalNumber = Double.parseDouble(number.replace("T", "")) * 1000000000000L;
+            return (long) (Math.round(finalNumber * scaleFactor) / scaleFactor);
+        }
         if (number.contains("B"))
         {
             finalNumber = Double.parseDouble(number.replace("B", "")) * 1000000000;
@@ -23,7 +28,12 @@ public class UtilStringMethods
         }
         if (number.contains("%"))
         {
-            finalNumber = Double.parseDouble(number.replace("%", "")) / 100;
+            number = number.replace("%", "");
+            parseStringDouble(number);
+        }
+        if (number.contains("(") || number.contains(")"))
+        {
+            finalNumber = Double.parseDouble(number.replace("(", "").replace(")", ""));
             return Math.round(finalNumber * scaleFactor) / scaleFactor;
         }
         return number.isEmpty() ? 0 : Double.parseDouble(number);
