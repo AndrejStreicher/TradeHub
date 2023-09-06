@@ -167,7 +167,7 @@ public class TelegramBotService
                 tickerSummaryModel.companyName(),
                 tickerSummaryModel.marketCap(),
                 marketOpenMessage,
-                tickerSummaryModel.currentPrice(),
+                tickerSummaryModel.currentPrice().get(),
                 tickerSummaryModel.changeSinceOpen(),
                 tickerSummaryModel.changeSinceOpenPercent(),
                 tickerSummaryModel.fiftyTwoWeekLow(),
