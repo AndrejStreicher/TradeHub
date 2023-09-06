@@ -114,15 +114,16 @@ public class YahooFinanceWebScraperService
     {
         Document stockSummaryDocument = getYahooFinanceQuoteDocument(ticker);
         String[] stockNameAndTicker = getStockNameAndTickerFromDocument(stockSummaryDocument);
-        Elements stockSummaryRows = stockSummaryDocument.getElementsByClass("Bxz(bb) Bdbw(1px) Bdbs(s) Bdc($seperatorColor) H(36px)");
-        double marketCap = UtilStringMethods.parseStringDouble(stockSummaryRows.select("MARKET_CAP-value").text());
-        boolean isOpen = stockSummaryDocument.select("C($tertiaryColor) D(b) Fz(12px) Fw(n) Mstart(0)--mobpsm Mt(6px)--mobpsm Whs(n)").text().contains("open");
-        Optional<Double> currentPrice = getPriceFromDocument(stockSummaryDocument, ticker);
-        double changeSinceOpen = Double.parseDouble(stockSummaryDocument.select("regularMarketChange").text());
-        double changeSinceOpenPercent = UtilStringMethods.parseStringDouble(stockSummaryDocument.select("regularMarketChangePercent").text());
-        String[] fiftyTwoWeekRange = stockSummaryDocument.select("FIFTY_TWO_WK_RANGE-value").text().split("/");
-        double volume = Double.parseDouble(stockSummaryDocument.select("regularMarketVolume").text());
-        double averageVolume = Double.parseDouble(stockSummaryDocument.select("AVERAGE_VOLUME_3MONTH-value").text());
+        Element stockSummaryRows = stockSummaryDocument.getElementById("quote-summary");
+        assert stockSummaryRows != null;
+        double marketCap = UtilStringMethods.parseStringDouble(stockSummaryRows.select("[data-test=MARKET_CAP-value]").text());
+        boolean isOpen = stockSummaryRows.getElementsByClass("C($tertiaryColor) D(b) Fz(12px) Fw(n) Mstart(0)--mobpsm Mt(6px)--mobpsm Whs(n)").text().contains("open");
+        Optional<Double> currentPrice = Optional.of(12.5);
+        double changeSinceOpen = Double.parseDouble(stockSummaryDocument.select("[data-test=qsp-price-change]").text());
+        double changeSinceOpenPercent = UtilStringMethods.parseStringDouble(stockSummaryDocument.select("[data-field=regularMarketChangePercent][data-symbol=SYM]").text());
+        String[] fiftyTwoWeekRange = stockSummaryRows.select("[data-test=FIFTY_TWO_WK_RANGE-value]").text().split("-");
+        int volume = Integer.parseInt(stockSummaryRows.select("[data-field=regularMarketVolume]").text().replace(",", ""));
+        int averageVolume = Integer.parseInt(stockSummaryRows.select("[data-test=AVERAGE_VOLUME_3MONTH-value]").text().replace(",", ""));
         return new TickerSummaryModel(
                 stockNameAndTicker[1],
                 stockNameAndTicker[0],

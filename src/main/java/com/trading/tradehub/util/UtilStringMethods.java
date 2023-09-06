@@ -23,7 +23,12 @@ public class UtilStringMethods
         }
         if (number.contains("%"))
         {
-            finalNumber = Double.parseDouble(number.replace("%", "")) / 100;
+            number = number.replace("%", "");
+            parseStringDouble(number);
+        }
+        if (number.contains("(") || number.contains(")"))
+        {
+            finalNumber = Double.parseDouble(number.replace("(", "").replace(")", ""));
             return Math.round(finalNumber * scaleFactor) / scaleFactor;
         }
         return number.isEmpty() ? 0 : Double.parseDouble(number);
