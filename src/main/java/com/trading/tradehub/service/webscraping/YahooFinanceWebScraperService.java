@@ -63,6 +63,7 @@ public class YahooFinanceWebScraperService
                         "&filter=history&frequency=" +
                         interval +
                         "&includeAdjustedClose=true");
+        assert historicalDataDocument != null;
         Elements historicalDataElements = historicalDataDocument.select("table[data-test=historical-prices]");
         Element historicalDataElement = historicalDataElements.first();
         assert historicalDataElement != null;
