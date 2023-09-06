@@ -135,7 +135,7 @@ public class YahooFinanceWebScraperService
 
         String[] fiftyTwoWeekRange = stockSummaryRows.select("[data-test=FIFTY_TWO_WK_RANGE-value]").text().split("-");
         double fiftyTwoWeekRangeLow = fiftyTwoWeekRange[0].isEmpty() ? 0.0 : Double.parseDouble(fiftyTwoWeekRange[0]);
-        double fiftyTwoWeekRangeHigh = fiftyTwoWeekRange[1].isEmpty() ? 0.0 : Double.parseDouble(fiftyTwoWeekRange[1]);
+        double fiftyTwoWeekRangeHigh = fiftyTwoWeekRange.length == 1 || fiftyTwoWeekRange[1].isEmpty() ? 0.0 : Double.parseDouble(fiftyTwoWeekRange[1]);
         String volumeString = stockSummaryRows.select("[data-field=regularMarketVolume]").text();
         int volume = "N/A".equals(volumeString) || volumeString.isEmpty() ? 0 : Integer.parseInt(volumeString.replace(",", ""));
 
