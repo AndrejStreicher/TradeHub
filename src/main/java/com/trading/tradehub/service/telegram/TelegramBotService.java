@@ -16,6 +16,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 
 /**
  * Service class to send messages to Telegram chat groups or users using Telegram Bot API.
@@ -154,6 +155,8 @@ public class TelegramBotService
     {
         String messageToSend = UtilHTMLMethods.HTMLFileToString("src/main/resources/static/tickerInfoTelegramMessage.html");
         assert messageToSend != null;
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+
         String marketOpenMessage;
         if (tickerSummaryModel.isOpen())
         {
@@ -162,18 +165,21 @@ public class TelegramBotService
         {
             marketOpenMessage = "Closed";
         }
+        String volumeString = decimalFormat.format(tickerSummaryModel.volume());
+        double currentPrice = tickerSummaryModel.currentPrice().isEmpty() ? 0.0 : tickerSummaryModel.currentPrice().get();
+        String averageVolumeString = decimalFormat.format(tickerSummaryModel.averageVolume());
         messageToSend = String.format(messageToSend,
                 tickerSummaryModel.ticker(),
                 tickerSummaryModel.companyName(),
                 tickerSummaryModel.marketCap(),
                 marketOpenMessage,
-                tickerSummaryModel.currentPrice().get(),
+                currentPrice,
                 tickerSummaryModel.changeSinceOpen(),
                 tickerSummaryModel.changeSinceOpenPercent(),
                 tickerSummaryModel.fiftyTwoWeekLow(),
                 tickerSummaryModel.fiftyTwoWeekHigh(),
-                tickerSummaryModel.volume(),
-                tickerSummaryModel.averageVolume()
+                volumeString,
+                averageVolumeString
         );
         return URLEncoder.encode(messageToSend, StandardCharsets.UTF_8);
     }
