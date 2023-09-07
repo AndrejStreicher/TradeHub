@@ -4,7 +4,7 @@ public class UtilStringMethods
 {
     private UtilStringMethods()
     {
-
+        
     }
 
     public static double parseStringDouble(String numberString)
