@@ -2,11 +2,6 @@ package com.trading.tradehub.util;
 
 public class UtilStringMethods
 {
-    private UtilStringMethods()
-    {
-
-    }
-
     public static double parseStringDouble(String number)
     {
         double finalNumber = 0.0;
