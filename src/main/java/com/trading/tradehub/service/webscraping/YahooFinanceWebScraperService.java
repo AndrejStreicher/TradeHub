@@ -119,7 +119,7 @@ public class YahooFinanceWebScraperService
         assert stockSummaryRows != null;
 
         String marketCapStr = stockSummaryRows.select("[data-test=MARKET_CAP-value]").text();
-        double marketCap = "N/A".equals(marketCapStr) || marketCapStr.isEmpty() ? 0.0 : UtilStringMethods.parseStringDouble(marketCapStr);
+        String marketCap = "N/A".equals(marketCapStr) || marketCapStr.isEmpty() ? "0" : marketCapStr;
 
         boolean isOpen = stockSummaryRows.getElementsByClass("C($tertiaryColor) D(b) Fz(12px) Fw(n) Mstart(0)--mobpsm Mt(6px)--mobpsm Whs(n)")
                 .text()
