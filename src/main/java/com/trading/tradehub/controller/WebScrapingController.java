@@ -2,17 +2,16 @@ package com.trading.tradehub.controller;
 
 import com.trading.tradehub.model.ClusterInsiderBuyModel;
 import com.trading.tradehub.model.FundamentalTickerDataModel;
+import com.trading.tradehub.model.HistoricalDataModel;
 import com.trading.tradehub.model.TickerInsiderTradeModel;
 import com.trading.tradehub.service.webscraping.FinvizWebScraperService;
 import com.trading.tradehub.service.webscraping.OpenInsiderWebScraperService;
 import com.trading.tradehub.service.webscraping.YahooFinanceWebScraperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -138,5 +137,22 @@ public class WebScrapingController
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(fundamentalTickerData);
+    }
+
+    @GetMapping("yahoofinance/historicaldata")
+    public ResponseEntity<List<HistoricalDataModel>> getHistoricalData(
+            @RequestParam("ticker") String ticker,
+            @RequestParam("period1") LocalDate period1,
+            @RequestParam("period2") LocalDate period2,
+            @RequestParam("interval") String interval
+    )
+    {
+        if (ticker == null || ticker.trim().isEmpty())
+        {
+            // If the ticker is invalid, return a 400 Bad Request response to the client
+            return ResponseEntity.badRequest().build();
+        }
+        List<HistoricalDataModel> historicalDataModels = yahooFinanceWebScraperService.getHistoricalData(ticker, period1, period2, interval);
+        return ResponseEntity.ok(historicalDataModels);
     }
 }
