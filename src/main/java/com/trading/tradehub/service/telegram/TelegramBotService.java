@@ -27,6 +27,7 @@ public class TelegramBotService
 {
     private static final Logger logger = LoggerFactory.getLogger(TelegramBotService.class);
     private final HttpClient httpClient = HttpClient.newHttpClient();
+    private final DecimalFormat decimalFormat = new DecimalFormat("#,###");
     @Value("${telegram.chatID.personal}")
     private String personalChatID;
     @Value("${telegram.chatID.test}")
@@ -136,17 +137,20 @@ public class TelegramBotService
     {
         String messageToSend = UtilHTMLMethods.HTMLFileToString("src/main/resources/static/clusterBuyTelegramMessage.html");
         assert messageToSend != null;
+        String quantityString = decimalFormat.format(clusterInsiderBuyModel.quantity());
+        String ownedString = decimalFormat.format(clusterInsiderBuyModel.ownedShares());
+        String valueString = decimalFormat.format(clusterInsiderBuyModel.value());
         messageToSend = String.format(messageToSend,
                 clusterInsiderBuyModel.ticker(),
                 clusterInsiderBuyModel.ticker(),
                 clusterInsiderBuyModel.companyName(),
                 clusterInsiderBuyModel.industry(),
                 clusterInsiderBuyModel.amountOfInsiders(),
-                clusterInsiderBuyModel.price(),
-                clusterInsiderBuyModel.quantity(),
-                clusterInsiderBuyModel.ownedShares(),
+                UtilStringMethods.parseDoubleToString(clusterInsiderBuyModel.price()),
+                quantityString,
+                ownedString,
                 clusterInsiderBuyModel.changeInOwnedShares(),
-                clusterInsiderBuyModel.value(),
+                valueString,
                 clusterInsiderBuyModel.filingDate(),
                 clusterInsiderBuyModel.tradeDate());
         return URLEncoder.encode(messageToSend, StandardCharsets.UTF_8);
@@ -156,7 +160,6 @@ public class TelegramBotService
     {
         String messageToSend = UtilHTMLMethods.HTMLFileToString("src/main/resources/static/tickerInfoTelegramMessage.html");
         assert messageToSend != null;
-        DecimalFormat decimalFormat = new DecimalFormat("#,###");
 
         String marketOpenMessage;
         if (tickerSummaryModel.isOpen())
