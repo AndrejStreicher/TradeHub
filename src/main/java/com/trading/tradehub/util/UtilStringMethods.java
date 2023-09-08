@@ -16,6 +16,7 @@ public class UtilStringMethods
     {
         double finalNumber = 0.0;
         numberString = numberString.replaceAll("[^0-9+.\\-]", "");
+        numberString = numberString.replaceAll("0*$", "");
         try
         {
             finalNumber = Double.parseDouble(numberString);
