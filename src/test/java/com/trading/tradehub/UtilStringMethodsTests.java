@@ -11,20 +11,20 @@ class UtilStringMethodsTests
     @Test
     void parseStringDouble_ValidStringNonRoundedNumberPassed_ReturnsRoundedDouble()
     {
-        double numberDouble = UtilStringMethods.parseStringDouble("56.684");
+        double numberDouble = UtilStringMethods.parseStringToDouble("56.684");
         Assertions.assertEquals(56.68, numberDouble);
     }
 
     @Test
     void parseStringDouble_InvalidStringPassed_ThrowsNumberFormatException()
     {
-        Assertions.assertThrows(NumberFormatException.class, () -> UtilStringMethods.parseStringDouble("Hello World!"));
+        Assertions.assertThrows(NumberFormatException.class, () -> UtilStringMethods.parseStringToDouble("Hello World!"));
     }
 
     @Test
     void parseStringDouble_ValidStringWithReplaceableCharactersPassed_ReturnsDoubleWithoutReplaceableCharacters()
     {
-        double numberDouble = UtilStringMethods.parseStringDouble("+45ABC.125");
+        double numberDouble = UtilStringMethods.parseStringToDouble("+45ABC.125");
         Assertions.assertEquals(45.13, numberDouble);
 
     }

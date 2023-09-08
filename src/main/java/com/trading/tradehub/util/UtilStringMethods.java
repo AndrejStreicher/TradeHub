@@ -12,11 +12,10 @@ public class UtilStringMethods
 
     private static final Logger logger = LoggerFactory.getLogger(UtilStringMethods.class);
 
-    public static double parseStringDouble(String numberString)
+    public static double parseStringToDouble(String numberString)
     {
         double finalNumber = 0.0;
         numberString = numberString.replaceAll("[^0-9+.\\-]", "");
-        numberString = numberString.replaceAll("0*$", "");
         try
         {
             finalNumber = Double.parseDouble(numberString);
@@ -29,4 +28,14 @@ public class UtilStringMethods
         return finalNumber;
     }
 
+    public static String parseDoubleToString(double numberDouble)
+    {
+        if (numberDouble == (long) numberDouble)
+        {
+            return String.format("%.0f", numberDouble);
+        } else
+        {
+            return String.format("%.2f", numberDouble);
+        }
+    }
 }
