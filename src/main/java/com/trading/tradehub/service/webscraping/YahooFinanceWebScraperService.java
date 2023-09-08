@@ -130,7 +130,7 @@ public class YahooFinanceWebScraperService
         String changeSinceOpenStr = stockSummaryDocument.select("[data-test=qsp-price-change]").text();
         double changeSinceOpen = "N/A".equals(changeSinceOpenStr) || changeSinceOpenStr.isEmpty() ? 0.0 : UtilStringMethods.parseStringDouble(changeSinceOpenStr);
 
-        String changeSinceOpenPercentStr = stockSummaryDocument.select("[data-field=regularMarketChangePercent][data-symbol=SYM]").text();
+        String changeSinceOpenPercentStr = stockSummaryDocument.select(String.format("[data-field=regularMarketChangePercent][data-symbol=%s]", ticker)).text();
         double changeSinceOpenPercent = "N/A".equals(changeSinceOpenPercentStr) || changeSinceOpenPercentStr.isEmpty() ? 0.0 : UtilStringMethods.parseStringDouble(changeSinceOpenPercentStr);
 
         String[] fiftyTwoWeekRange = stockSummaryRows.select("[data-test=FIFTY_TWO_WK_RANGE-value]").text().split("-");
