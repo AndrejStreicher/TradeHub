@@ -3,6 +3,7 @@ package com.trading.tradehub.service.telegram;
 import com.trading.tradehub.model.ClusterInsiderBuyModel;
 import com.trading.tradehub.model.TickerSummaryModel;
 import com.trading.tradehub.util.UtilHTMLMethods;
+import com.trading.tradehub.util.UtilStringMethods;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -173,11 +174,11 @@ public class TelegramBotService
                 tickerSummaryModel.companyName(),
                 tickerSummaryModel.marketCap(),
                 marketOpenMessage,
-                currentPrice,
-                tickerSummaryModel.changeSinceOpen(),
-                tickerSummaryModel.changeSinceOpenPercent(),
-                tickerSummaryModel.fiftyTwoWeekLow(),
-                tickerSummaryModel.fiftyTwoWeekHigh(),
+                UtilStringMethods.parseDoubleToString(currentPrice),
+                UtilStringMethods.parseDoubleToString(tickerSummaryModel.changeSinceOpen()),
+                UtilStringMethods.parseDoubleToString(tickerSummaryModel.changeSinceOpenPercent()),
+                UtilStringMethods.parseDoubleToString(tickerSummaryModel.fiftyTwoWeekLow()),
+                UtilStringMethods.parseDoubleToString(tickerSummaryModel.fiftyTwoWeekHigh()),
                 volumeString,
                 averageVolumeString
         );
