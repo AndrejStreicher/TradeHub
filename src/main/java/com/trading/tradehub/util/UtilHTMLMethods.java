@@ -13,6 +13,11 @@ import java.nio.file.Paths;
 
 public class UtilHTMLMethods
 {
+    private UtilHTMLMethods()
+    {
+        
+    }
+
     private static final Logger logger = LoggerFactory.getLogger(UtilHTMLMethods.class);
 
     // Converts an HTML file into a string
