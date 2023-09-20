@@ -25,11 +25,11 @@ public class TelegramCommandService
         if (update.message().text().contains(TICKER_COMMAND))
         {
             String ticker = update.message().text().replace(TICKER_COMMAND, "");
-            commandIsTicker(ticker);
+            tickerCommand(ticker);
         }
     }
 
-    private void commandIsTicker(String ticker)
+    private void tickerCommand(String ticker)
     {
         TickerSummaryModel tickerSummaryModel = yahooFinanceWebScraperService.getTickerSummary(ticker);
         telegramBotService.sendMessage(TelegramBotService.TargetChat.PERSONAL, tickerSummaryModel);
