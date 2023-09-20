@@ -139,6 +139,17 @@ public class WebScrapingController
         return ResponseEntity.ok(fundamentalTickerData);
     }
 
+    /**
+     * Endpoint to retrieve the fundamental data of a specific ticker.
+     *
+     * @param ticker   The ticker symbol for the stock.
+     * @param period1  The start date for the historical data.
+     * @param period2  The end date for the historical data.
+     * @param interval The interval of the historical data.
+     * @return Response entity containing the historical data.
+     * If the ticker is empty or null, a 400 Bad Request response is returned.
+     */
+
     @GetMapping("yahoofinance/historicaldata")
     public ResponseEntity<List<HistoricalDataModel>> getHistoricalData(
             @RequestParam("ticker") String ticker,

@@ -18,6 +18,15 @@ public class AlertsController
         this.openInsiderAlertService = openInsiderAlertService;
     }
 
+    /**
+     * Endpoint to turn on or off the cluster buy alert.
+     *
+     * @param enabled The boolean that represents the required status of the alert.
+     * @return ResponseEntity that returns a 200 OK response if the alert status corresponds to the requested boolean.
+     * If the status doesn't correspond to the requested boolean i.e. it wasn't changed, a 500 Internal server error
+     * response is returned.
+     */
+
     @PutMapping("/clusterbuyalert")
     public ResponseEntity<Void> updateClusterBuyAlertStatus(@RequestParam boolean enabled)
     {
@@ -28,6 +37,12 @@ public class AlertsController
         }
         return ResponseEntity.ok().build();
     }
+
+    /**
+     * Endpoint to retrieve the current status of the cluster buy alert.
+     *
+     * @return ResponseEntity containing the current status of the alert. True for enabled, false for disabled.
+     */
 
     @GetMapping("/clusterbuyalert/status")
     public ResponseEntity<Boolean> getClusterBuyAlertStatus()

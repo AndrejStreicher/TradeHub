@@ -21,6 +21,12 @@ public class TelegramBotController
         this.telegramCommandService = telegramCommandService;
     }
 
+    /**
+     * Endpoint for telegram to send updates to.
+     *
+     * @return ResponseEntity containing a 200 OK response.
+     * If the ticker is empty or null, a 400 Bad Request response is returned.
+     */
     @PostMapping("/webhook")
     public ResponseEntity<String> handleWebhook(@RequestBody TelegramUpdateModel update)
     {

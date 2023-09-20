@@ -131,7 +131,7 @@ public class TelegramBotService
      * Build the message to be sent to the Telegram chat.
      *
      * @param clusterInsiderBuyModel The ClusterInsiderBuysModel object containing information to include in the message.
-     * @return The formatted message to be sent.
+     * @return The URL encoded message to be sent.
      */
     private String buildClusterBuyMessage(ClusterInsiderBuyModel clusterInsiderBuyModel)
     {
