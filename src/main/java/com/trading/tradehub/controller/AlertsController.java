@@ -28,7 +28,7 @@ public class AlertsController
      */
 
     @PutMapping("/clusterbuyalert")
-    public ResponseEntity<Void> updateClusterBuyAlertStatus(@RequestParam boolean enabled)
+    public ResponseEntity<Void> updateClusterBuyAlertStatus(@RequestBody boolean enabled)
     {
         openInsiderAlertService.setClusterBuyAlertEnabled(enabled);
         if (openInsiderAlertService.getClusterBuyAlertEnabled() != enabled)
