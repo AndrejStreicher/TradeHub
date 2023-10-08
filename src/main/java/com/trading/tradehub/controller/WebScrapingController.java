@@ -49,10 +49,10 @@ public class WebScrapingController
         return ResponseEntity.ok(clusterBuys);
     }
 
-    @GetMapping("openinsider/clusterbuys/screener/{link}")
-    public ResponseEntity<List<ClusterInsiderBuyModel>> getScreenedClusterBuys(@PathVariable String link)
+    @GetMapping("openinsider/clusterbuys/screener/{screenerParameters}")
+    public ResponseEntity<List<ClusterInsiderBuyModel>> getScreenedClusterBuys(@PathVariable String screenerParameters)
     {
-        List<ClusterInsiderBuyModel> clusterBuys = openInsiderWebScraperService.scrapeScreenedClusterBuys(link);
+        List<ClusterInsiderBuyModel> clusterBuys = openInsiderWebScraperService.scrapeScreenedClusterBuys(screenerParameters);
         if (clusterBuys.isEmpty())
         {
             return ResponseEntity.badRequest().build();

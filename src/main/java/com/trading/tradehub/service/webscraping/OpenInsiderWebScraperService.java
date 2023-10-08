@@ -37,9 +37,10 @@ public class OpenInsiderWebScraperService
         return scrapeClusterBuys(OPEN_INSIDER_BASE_URL + "/latest-cluster-buys");
     }
 
-    public List<ClusterInsiderBuyModel> scrapeScreenedClusterBuys(String link)
+    public List<ClusterInsiderBuyModel> scrapeScreenedClusterBuys(String screenerParameters)
     {
-        return scrapeClusterBuys(link);
+        String openInsiderLink = OPEN_INSIDER_BASE_URL + "/screener?" + screenerParameters;
+        return scrapeClusterBuys(openInsiderLink);
     }
 
     private List<ClusterInsiderBuyModel> scrapeClusterBuys(String link)
@@ -112,7 +113,7 @@ public class OpenInsiderWebScraperService
             int changeInOwned = 0;
             if (!columns.get(11).text().replace("%", "").isEmpty())
             {
-                changeInOwned = Integer.parseInt(columns.get(11).text().replace("%", ""));
+                changeInOwned = Integer.parseInt(columns.get(11).text().replace("%", "").replace(">", ""));
             }
             String stringValue = columns.get(12).text().replace("$", "");
             int value = Integer.parseInt(stringValue.replace(",", ""));
