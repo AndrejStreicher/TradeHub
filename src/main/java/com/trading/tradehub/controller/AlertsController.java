@@ -50,4 +50,15 @@ public class AlertsController
         boolean status = openInsiderAlertService.getClusterBuyAlertEnabled();
         return ResponseEntity.ok(status);
     }
+
+    @PutMapping("/telegramalerts")
+    public ResponseEntity<Void> updateTelegramAlertsStatus(@RequestParam boolean enabled)
+    {
+        openInsiderAlertService.setTelegramAlertStatus(enabled);
+        if (openInsiderAlertService.getTelegramAlertStatus() != enabled)
+        {
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok().build();
+    }
 }

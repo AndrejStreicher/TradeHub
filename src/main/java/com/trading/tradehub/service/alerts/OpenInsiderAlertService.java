@@ -25,6 +25,7 @@ public class OpenInsiderAlertService
     private ClusterInsiderBuyModel latestClusterBuy;
     private boolean initialized = false;
     private boolean clusterBuyAlertEnabled = false;
+    private boolean telegramAlertsEnabled = false;
 
     public void setClusterBuyAlertEnabled(boolean clusterBuyAlertEnabled)
     {
@@ -79,7 +80,10 @@ public class OpenInsiderAlertService
                 if (initialized && !latestClusterBuy.equals(newClusterBuyModel))
                 {
                     latestClusterBuy = newClusterBuyModel;
-                    telegramBotService.sendMessage(TelegramBotService.TargetChat.GROUP, latestClusterBuy);
+                    if (telegramAlertsEnabled)
+                    {
+                        telegramBotService.sendMessage(TelegramBotService.TargetChat.GROUP, latestClusterBuy);
+                    }
                 }
                 initialized = true;
             }
@@ -87,5 +91,15 @@ public class OpenInsiderAlertService
         {
             logger.error("There was an exception in the alert service", e);
         }
+    }
+
+    public void setTelegramAlertStatus(boolean status)
+    {
+        this.telegramAlertsEnabled = status;
+    }
+
+    public boolean getTelegramAlertStatus()
+    {
+        return telegramAlertsEnabled;
     }
 }
