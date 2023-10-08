@@ -37,9 +37,10 @@ public class OpenInsiderWebScraperService
         return scrapeClusterBuys(OPEN_INSIDER_BASE_URL + "/latest-cluster-buys");
     }
 
-    public List<ClusterInsiderBuyModel> scrapeScreenedClusterBuys(String link)
+    public List<ClusterInsiderBuyModel> scrapeScreenedClusterBuys(String screenerParameters)
     {
-        return scrapeClusterBuys(link);
+        String openInsiderLink = "http://openinsider.com/screener?" + screenerParameters;
+        return scrapeClusterBuys(openInsiderLink);
     }
 
     private List<ClusterInsiderBuyModel> scrapeClusterBuys(String link)
