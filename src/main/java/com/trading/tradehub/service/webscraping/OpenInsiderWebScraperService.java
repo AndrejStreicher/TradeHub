@@ -113,7 +113,7 @@ public class OpenInsiderWebScraperService
             int changeInOwned = 0;
             if (!columns.get(11).text().replace("%", "").isEmpty())
             {
-                changeInOwned = Integer.parseInt(columns.get(11).text().replace("%", "").replace(">", ""));
+                changeInOwned = Integer.parseInt(columns.get(11).text().replace("%", "").replace(">", "").replace("<", ""));
             }
             String stringValue = columns.get(12).text().replace("$", "");
             int value = Integer.parseInt(stringValue.replace(",", ""));
