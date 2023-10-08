@@ -8,6 +8,6 @@ import java.time.LocalDateTime;
  */
 public record ClusterInsiderBuyModel(String X, LocalDateTime filingDate, LocalDate tradeDate, String ticker,
                                      String companyName, String industry, int amountOfInsiders, String tradeType,
-                                     double price, int quantity, int ownedShares, int changeInOwnedShares, int value)
+                                     double price, int quantity, int ownedShares, int changeInOwnedShares, long value)
 {
 }

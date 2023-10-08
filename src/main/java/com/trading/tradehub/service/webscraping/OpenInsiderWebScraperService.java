@@ -107,16 +107,16 @@ public class OpenInsiderWebScraperService
             Elements columns = row.select("td");
             LocalDateTime filingDate = LocalDateTime.parse(columns.get(1).text(), dateTimeFormatter);
             LocalDate tradeDate = LocalDate.parse(columns.get(2).text(), dateFormatter);
-            double price = Double.parseDouble(columns.get(8).text().replace("$", ""));
+            double price = Double.parseDouble(columns.get(8).text().replace("$", "").replace(",", ""));
             int quantity = Integer.parseInt(columns.get(9).text().replace(",", ""));
             int owned = Integer.parseInt(columns.get(10).text().replace(",", ""));
             int changeInOwned = 0;
             if (!columns.get(11).text().replace("%", "").isEmpty())
             {
-                changeInOwned = Integer.parseInt(columns.get(11).text().replace("%", "").replace(">", ""));
+                changeInOwned = Integer.parseInt(columns.get(11).text().replace("%", "").replace(">", "").replace("<", ""));
             }
             String stringValue = columns.get(12).text().replace("$", "");
-            int value = Integer.parseInt(stringValue.replace(",", ""));
+            long value = Long.parseLong(stringValue.replace(",", ""));
             ClusterInsiderBuyModel newClusterBuyModel = new ClusterInsiderBuyModel(columns.get(0).text(),
                     filingDate,
                     tradeDate,
