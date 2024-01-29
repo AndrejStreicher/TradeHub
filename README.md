@@ -15,7 +15,7 @@ telegram.chatID.personal=
 telegram.botAPI.key=
 local.url=
 server.domain=
-``  
+```  
 <p>3. Deploy</p>
 
 <h2>💻 Built with</h2>
