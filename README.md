@@ -6,7 +6,7 @@
 
 <p>1. Clone github repo</p>
 
-<p>2. Create application.properties under /main/resources</p>
+<p>2. Create application.properties under src/main/resources</p>
 
 ```
 telegram.chatID.group=
