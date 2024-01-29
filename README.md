@@ -1,6 +1,6 @@
 <h1 align="center" id="title">TradeHub</h1>
 
-<p id="description">TradeHub is a selfhosted Java Spring API meant for "scraping" financial data from multiple sites such as Yahoo Finance and OpenInsider. Contains custom alerts for OpenInsider events.</p>
+<p id="description">TradeHub is a selfhosted Java Spring API meant for "scraping" financial data from multiple sites such as Yahoo Finance, OpenInsider and FinViz. Contains custom alerts for OpenInsider events.</p>
 
 <h2>🛠️ Installation Steps:</h2>
 
