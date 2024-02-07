@@ -8,6 +8,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -39,7 +41,7 @@ public class OpenInsiderWebScraperService
 
     public List<ClusterInsiderBuyModel> scrapeScreenedClusterBuys(String screenerParameters)
     {
-        String openInsiderLink = OPEN_INSIDER_BASE_URL + "/screener?" + screenerParameters;
+        String openInsiderLink = OPEN_INSIDER_BASE_URL + "/screener?" + URLDecoder.decode(screenerParameters, StandardCharsets.UTF_8);
         return scrapeClusterBuys(openInsiderLink);
     }
 

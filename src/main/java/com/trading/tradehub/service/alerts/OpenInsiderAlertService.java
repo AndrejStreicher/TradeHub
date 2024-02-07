@@ -1,7 +1,6 @@
 package com.trading.tradehub.service.alerts;
 
 import com.trading.tradehub.model.ClusterInsiderBuyModel;
-import com.trading.tradehub.service.telegram.TelegramBotService;
 import com.trading.tradehub.service.webscraping.OpenInsiderWebScraperService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +18,11 @@ public class OpenInsiderAlertService
 
     // The refresh rate in milliseconds for checking new cluster buy events.
     private static final int REFRESH_RATE_IN_MILLISECONDS = 900000;
-    private TelegramBotService telegramBotService;
     private OpenInsiderWebScraperService openInsiderWebScraperService;
     // Holds the latest cluster insider buy event data.
     private ClusterInsiderBuyModel latestClusterBuy;
     private boolean initialized = false;
     private boolean clusterBuyAlertEnabled = false;
-    private boolean telegramAlertsEnabled = false;
 
     public void setClusterBuyAlertEnabled(boolean clusterBuyAlertEnabled)
     {
@@ -40,11 +37,9 @@ public class OpenInsiderAlertService
 
     @Autowired
     public OpenInsiderAlertService(
-            TelegramBotService telegramBotService,
             OpenInsiderWebScraperService openInsiderWebScraperService
     )
     {
-        this.telegramBotService = telegramBotService;
         this.openInsiderWebScraperService = openInsiderWebScraperService;
     }
 
@@ -80,10 +75,6 @@ public class OpenInsiderAlertService
                 if (initialized && !latestClusterBuy.equals(newClusterBuyModel))
                 {
                     latestClusterBuy = newClusterBuyModel;
-                    if (telegramAlertsEnabled)
-                    {
-                        telegramBotService.sendMessage(TelegramBotService.TargetChat.GROUP, latestClusterBuy);
-                    }
                 }
                 initialized = true;
             }
@@ -93,13 +84,4 @@ public class OpenInsiderAlertService
         }
     }
 
-    public void setTelegramAlertStatus(boolean status)
-    {
-        this.telegramAlertsEnabled = status;
-    }
-
-    public boolean getTelegramAlertStatus()
-    {
-        return telegramAlertsEnabled;
-    }
 }
